@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "203515693947",
+    "firebase_url": "https://vocalcraft-d6b8a-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "vocalcraft-d6b8a",
+    "storage_bucket": "vocalcraft-d6b8a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203515693947:android:6274170bab7ec3994ecbde",
+        "android_client_info": {
+          "package_name": "com.aliashraf.vocalcraft"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "203515693947-7ktqa09llj61c34f99cef0gs2av25tph.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aliashraf.vocalcraft",
+            "certificate_hash": "5534b00cb369b772838aad95076c3df23439a0fb"
+          }
+        },
+        {
+          "client_id": "203515693947-j64pgaimrv79csjrmklq4f3k82d979f9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATsUfsOUqhcAnLXTOBh6pSQm_HY8p2HSo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "203515693947-j64pgaimrv79csjrmklq4f3k82d979f9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

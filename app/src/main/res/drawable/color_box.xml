@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background color of the box -->
+    <solid android:color="#0c2112" />
+
+    <stroke
+        android:color="#0c2112"
+    android:width="4dp" />
+
+    <!-- Rounded corners (optional) -->
+    <corners android:radius="16dp" />
+
+    <!-- Padding (optional) -->
+    <padding
+        android:left="8dp"
+        android:top="8dp"
+        android:right="8dp"
+        android:bottom="8dp" />
+</shape>
