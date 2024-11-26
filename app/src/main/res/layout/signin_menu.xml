@@ -1,76 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".SigninMenuActivity">
+    android:layout_height="match_parent">
 
-    <!-- Title text "VocalCraft" -->
+    <!-- Icon -->
+    <ImageView
+        android:id="@+id/iconImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.12"
+        app:layout_constraintDimensionRatio="1:1"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/megaphone" />
+
+    <!-- Title -->
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="VocalCraft"
         android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="#5956fb"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/iconImage"
+        app:layout_constraintTop_toTopOf="@id/iconImage"
+        app:layout_constraintBottom_toBottomOf="@id/iconImage" />
+
+    <!-- Feature Text -->
+    <TextView
+        android:id="@+id/featureText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="AI-DRIVEN\nPAMPHLET CREATION\nTHROUGH VOICE\nCOMMANDS"
         android:textSize="32sp"
-        android:fontFamily="@font/montserrat_bold_italic"
-        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textColor="#1f1d4c"
+        android:lineSpacingMultiplier="0.9"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="32dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/iconImage" />
+        app:layout_constraintTop_toBottomOf="@id/iconImage"/>
 
-    <!-- Icon in the middle of the screen -->
-    <ImageView
-        android:id="@+id/iconImage"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_margin="16dp"
-        app:layout_constraintTop_toBottomOf="@id/titleText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/megaphone" />
-
-    <!-- SignUp button -->
-    <Button
-        android:id="@+id/signUpButton"
+    <!-- Description -->
+    <TextView
+        android:id="@+id/descriptionText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:text="Create professional pamphlets effortlessly using voice commands. Our AI technology transforms your spoken words into beautifully designed materials."
+        android:textSize="16sp"
+        android:textColor="#99000000"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@android:color/holo_blue_dark"
-        android:text="Sign Up"
-        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iconImage" />
+        app:layout_constraintTop_toBottomOf="@id/featureText"/>
 
-    <!-- SignIn button -->
-    <Button
-        android:id="@+id/signInButton"
+    <!-- Microphone Circle -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/microphoneContainer"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Sign In"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@android:color/holo_green_dark"
-        android:layout_margin="16dp"
-        app:layout_constraintTop_toBottomOf="@id/signUpButton"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.22"
+        app:layout_constraintDimensionRatio="1:1"
+        app:cardBackgroundColor="#5956fb"
+        app:cardCornerRadius="1000dp"
+        app:cardElevation="24dp"
+        android:outlineSpotShadowColor="#5956fb"
+        android:outlineAmbientShadowColor="#5956fb"
+        android:stateListAnimator="@null"
+        android:elevation="24dp"
+        android:translationZ="24dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintVertical_bias="0.3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/buttonContainer"
+        app:layout_constraintTop_toBottomOf="@id/descriptionText">
 
-    <!-- SignIn with Google button (same as previous) -->
-    <Button
-        android:id="@+id/googleSignInButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#db4f37"
-        android:text="Sign in with Google"
-        android:textColor="@android:color/white"
-        android:layout_margin="16dp"
-        app:layout_constraintTop_toBottomOf="@id/signInButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:padding="16dp"
+            android:src="@android:drawable/ic_btn_speak_now"
+            app:tint="@android:color/white"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Button Container -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.35"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="#1A5956FB"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="24dp">
+
+            <!-- Google Sign In -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/googleSignInButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.27"
+                android:text="Continue with Google"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:backgroundTint="#5956fb"
+                android:textColor="@android:color/white"
+                app:cornerRadius="15dp"
+                app:elevation="8dp"
+                android:stateListAnimator="@null"
+                android:layout_marginBottom="8dp"
+                app:icon="@android:drawable/ic_menu_myplaces"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconTint="@android:color/white"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <!-- Sign Up -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/signUpButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.27"
+                android:text="Sign Up with Email"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:backgroundTint="#efeefe"
+                android:textColor="#5f56e3"
+                app:cornerRadius="15dp"
+                app:elevation="8dp"
+                android:stateListAnimator="@null"
+                android:layout_marginBottom="8dp"
+                app:icon="@android:drawable/ic_dialog_email"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconTint="#5f56e3"
+                app:layout_constraintTop_toBottomOf="@id/googleSignInButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <!-- Login -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/signInButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.27"
+                android:text="Login To Existing Account"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:backgroundTint="#ffffff"
+                android:textColor="#5a4ee0"
+                app:cornerRadius="15dp"
+                app:elevation="8dp"
+                android:stateListAnimator="@null"
+                app:icon="@android:drawable/ic_menu_manage"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconTint="#5a4ee0"
+                app:layout_constraintTop_toBottomOf="@id/signUpButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
