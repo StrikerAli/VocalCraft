@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">Vocal Craft</string>
     <string name="default_web_client_id">203515693947-j64pgaimrv79csjrmklq4f3k82d979f9.apps.googleusercontent.com</string>
+
+    <!-- Feature Text Array -->
+    <string-array name="feature_texts">
+        <item>AI-DRIVEN\nPAMPHLET CREATION\nTHROUGH VOICE\nCOMMANDS</item>
+        <item>TRANSFORM YOUR\nVOICE INTO\nPROFESSIONAL\nDESIGNS</item>
+    </string-array>
+
+    <!-- Description Text Array -->
+    <string-array name="description_texts">
+        <item>Create professional pamphlets effortlessly using voice commands. Transform your spoken words into beautifully designed materials.</item>
+        <item>Speak your ideas and watch them come to life. Our advanced AI understands context and creates stunning layouts automatically.</item>
+    </string-array>
 </resources>
