@@ -97,18 +97,26 @@
         app:layout_constraintTop_toBottomOf="@id/passwordStrengthText"
         app:layout_constraintStart_toStartOf="@id/emailEditText" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/loginButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginHorizontal="16dp"
+        android:layout_width="340dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#E0E0FD"
+        android:stateListAnimator="@null"
         android:text="Login"
-        android:backgroundTint="@color/primary_button"
-        android:textColor="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@id/rememberMeCheckbox"
+        android:textColor="#5f56e3"
+        android:textSize="16sp"
+        app:icon="@drawable/ic_person"
+        android:textStyle="bold"
+        app:cornerRadius="15dp"
+        app:elevation="8dp"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        app:iconTint="#5f56e3"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/rememberMeCheckbox" />
 
     <TextView
         android:id="@+id/orSignInText"
@@ -122,17 +130,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/googleSignInButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:layout_width="340dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="16dp"
-        android:backgroundTint="#fae0a7"
-        android:text="Continue With Google"
-
-        android:textColor="@color/primary_text"
+        android:backgroundTint="#5956fb"
+        android:stateListAnimator="@null"
+        android:text="Google"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="15dp"
+        app:elevation="8dp"
+        app:icon="@drawable/ic_google"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        app:iconTint="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.27"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/orSignInText" />
 
@@ -148,14 +166,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="25dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="-268dp"
-        android:layout_marginTop="356dp"
-        app:layout_constraintStart_toEndOf="@+id/googleSignInButton"
-        app:layout_constraintTop_toBottomOf="@+id/subtitleText"
-        app:srcCompat="@drawable/ic_google" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

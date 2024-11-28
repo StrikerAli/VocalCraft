@@ -2,15 +2,18 @@ package com.aliashraf.vocalcraft
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -22,6 +25,8 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var signUpButton: Button
+    private lateinit var passwordStrengthText: TextView
+    private lateinit var loginLinkText: TextView
     private lateinit var auth: FirebaseAuth
 
     @SuppressLint("MissingInflatedId")
@@ -30,9 +35,11 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(R.layout.signup)
 
         nameEditText = findViewById(R.id.nameEditText)
+        loginLinkText = findViewById(R.id.loginLinkText)
         emailEditText = findViewById(R.id.emailEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
         signUpButton = findViewById(R.id.createAccountButton)
+        passwordStrengthText = findViewById(R.id.passwordStrengthText)
         FirebaseApp.initializeApp(this)
 
         // Initialize Firebase Auth
@@ -41,10 +48,45 @@ class SignUpActivity : AppCompatActivity() {
         signUpButton.setOnClickListener {
             signUpUser()
         }
+        loginLinkText.setOnClickListener {
+            val intent = Intent(this, SignInActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Add a text watcher to update password strength
+        passwordEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                updatePasswordStrength(s.toString())
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+    }
+
+    private fun updatePasswordStrength(password: String) {
+        when {
+            password.length <= 4 -> {
+                passwordStrengthText.text = "Weak Password"
+                passwordStrengthText.setTextColor(Color.RED)
+            }
+            password.length in 5..7 -> {
+                passwordStrengthText.text = "Mediocre Password"
+                passwordStrengthText.setTextColor(Color.parseColor("#e36019"))
+            }
+            password.length >= 8 -> {
+                passwordStrengthText.text = "Strong Password"
+                passwordStrengthText.setTextColor(Color.parseColor("#0e821a"))
+            }
+            else -> {
+                passwordStrengthText.text = ""
+            }
+        }
     }
 
     private fun signUpUser() {
-        val database = Firebase.database
+        val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("message")
         Log.d("SignUpActivity", "Database reference: $myRef")
         myRef.setValue("Hello, World!")
@@ -120,4 +162,4 @@ class SignUpActivity : AppCompatActivity() {
     }
 }
 
-    data class User(val userId: String?, val name: String, val email: String)
+data class User(val userId: String?, val name: String, val email: String)

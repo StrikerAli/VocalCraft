@@ -109,7 +109,7 @@ class NERActivity : AppCompatActivity() {
                         )
                         editText.setPadding(0, 0, 0, 16)
                         editText.hint = formattedKey
-                        editText.setTextColor(ContextCompat.getColor(this, R.color.white)) // Set text color
+                        editText.setTextColor(ContextCompat.getColor(this, R.color.black)) // Set text color
                         editText.setHintTextColor(ContextCompat.getColor(this, android.R.color.darker_gray)) // Set hint text color
                         editText.background = resources.getDrawable(R.drawable.edit_text_boundary) // Set background
                         editText.setPadding(24, 12, 12, 12) // Set padding

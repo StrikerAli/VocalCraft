@@ -84,6 +84,11 @@ class SigninMenuActivity : AppCompatActivity() {
             signIn()
         }
 
+        val triggerSignIn = intent.getBooleanExtra("TRIGGER_SIGN_IN", false)
+        if (triggerSignIn) {
+            signIn()
+        }
+
         setupFloatingAnimation()
         setupMicrophoneAnimation()
         setupTextAnimation()

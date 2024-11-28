@@ -8,17 +8,20 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import android.Manifest.permission.RECORD_AUDIO
 import android.annotation.SuppressLint
-import android.widget.TextView
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -36,31 +39,26 @@ import okhttp3.Response
 import okio.IOException
 import java.io.File
 
-// Data class to hold the prompt and its NER text
 data class Prompt(
-    var promptText: String = "", // Default value for promptText
-    var nerText: String = "" // Default value for nerText
-) {
-    // No-argument constructor is implicitly provided by default values
-}
+    var promptText: String = "",
+    var nerText: String = ""
+)
 
 class PromptActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var database: DatabaseReference // Reference to Firebase Database
+    private lateinit var database: DatabaseReference
     private lateinit var mediaRecorder: MediaRecorder
     private lateinit var audioFile: File
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var imageView: ImageView
     private lateinit var promptButton: Button
-    private lateinit var templatebutton: Button
-    private lateinit var profileButton: Button
-    private lateinit var ImageButton: Button
-
+    private lateinit var submitButton: Button
+    private lateinit var editText: EditText
 
     private var isRecording = false
     private lateinit var promptsAdapter: PromptsAdapter
-    private val promptsList = mutableListOf<Prompt>() // List to hold transcriptions
+    private val promptsList = mutableListOf<Prompt>()
     private lateinit var recyclerView: RecyclerView
-    private lateinit var editText: EditText // Declare editText at the class level
 
     private val client = OkHttpClient.Builder()
         .connectTimeout(100, java.util.concurrent.TimeUnit.SECONDS)
@@ -73,103 +71,89 @@ class PromptActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Initialize Firebase
         FirebaseApp.initializeApp(this)
-
-        // Initialize Firebase Auth
         firebaseAuth = FirebaseAuth.getInstance()
-        database = Firebase.database.reference // Initialize the database reference
+        database = Firebase.database.reference
 
-        // Initialize RecyclerView
-        recyclerView = findViewById(R.id.recycler_view_prompts) // Make sure this ID matches your layout
+        recyclerView = findViewById(R.id.recycler_view_prompts)
         recyclerView.layoutManager = LinearLayoutManager(this)
         promptsAdapter = PromptsAdapter(promptsList) { promptText ->
-            editText.setText(promptText) // Set the prompt text to the EditText
-            closeDrawer() // Close the drawer
+            editText.setText(promptText)
+            closeDrawer()
         }
         recyclerView.adapter = promptsAdapter
 
-        val googleSignInButton = findViewById<TextView>(R.id.welcomeTextView)
-
-        val fabMicrophone = findViewById<FloatingActionButton>(R.id.fab_microphone)
-        editText = findViewById(R.id.editText) // Initialize editText here
-        val submitButton = findViewById<Button>(R.id.submitButton)
-        val profileButton = findViewById<Button>(R.id.profileButton)
+        editText = findViewById(R.id.editText)
+        imageView = findViewById(R.id.imageView)
+        submitButton = findViewById(R.id.submitButton)
         promptButton = findViewById(R.id.promptbutton)
-        ImageButton = findViewById(R.id.ImageButton)
         drawerLayout = findViewById(R.id.drawer_layout)
+        val welcomeTextView = findViewById<TextView>(R.id.welcomeTextView)
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val username = currentUser?.displayName ?: currentUser?.email ?: "User"
+        val welcomeMessage = "Welcome, $username, Let's Get Started"
+        welcomeTextView.setText(welcomeMessage)
+
+        // Handle submit button click
+        submitButton.setOnClickListener {
+            val inputText = editText.text.toString().trim()
+
+            if (inputText.isEmpty()) {
+                // Record audio and send to API when EditText is empty
+                if (isRecording) {
+                    stopRecording()
+                    Toast.makeText(this, "Recording stopped", Toast.LENGTH_SHORT).show()
+                    Log.d("PromptActivity", "Audio file path: ${audioFile.absolutePath}")
+                    sendAudioForTranscription(editText)
+                } else {
+                    startRecording()
+                    Toast.makeText(this, "Recording started", Toast.LENGTH_SHORT).show()
+                }
+                isRecording = !isRecording
+            } else {
+                // Add prompt to database and call poster generation API
+                Log.d("PromptActivity", "Submit clicked with prompt: $inputText")
+                addPromptToDatabase(inputText, "")
+                callPosterGenerationApi(inputText)
+                editText.text.clear()
+            }
+        }
         promptButton.setOnClickListener {
             openDrawer()
         }
-        templatebutton = findViewById(R.id.templateButton)
-        templatebutton.setOnClickListener {
-            val intent = Intent(this, TemplateActivity::class.java)
-            startActivity(intent)
-        }
-        val username = intent.getStringExtra("USERNAME")
-        if (!username.isNullOrEmpty()) {
-            // set username in googleSignInButton
-            googleSignInButton.text = "Welcome $username, Let's Get Started"
-        }
 
-        submitButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#21bf63"))
-        requestMicrophonePermission()
+        //change color of Sumbit Button
+        submitButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#5654f7"))
+        promptButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#5654f7"))
 
-        fabMicrophone.setOnClickListener {
-            if (isRecording) {
-                stopRecording()
-                Toast.makeText(this, "Recording stopped", Toast.LENGTH_SHORT).show()
-                Log.d("MainActivity", "Audio file path: ${audioFile.absolutePath}")
-                sendAudioForTranscription(editText)
-            } else {
-                startRecording()
-                Toast.makeText(this, "Recording started", Toast.LENGTH_SHORT).show()
-            }
-            isRecording = !isRecording
-        }
 
-        profileButton.setOnClickListener {
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
-        }
-        ImageButton.setOnClickListener {
-            val intent = Intent(this, ImageActivity::class.java)
-            startActivity(intent)
-        }
+        // TextWatcher to handle dynamic icon changes
+        editText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-        submitButton.setOnClickListener {
-            val inputText = editText.text.toString().trim()
-            if (inputText.isNotEmpty()) {
-                Log.d("MainActivity", "Submit clicked with prompt: $inputText")
-                // Add prompt to Firebase Database with NER text as empty initially
-                addPromptToDatabase(inputText, "") // NER text can be set after transcription
-                callPosterGenerationApi(inputText) // Call the API to generate a poster
-                editText.text.clear() // Clear the EditText after submission
-            } else {
-                Toast.makeText(this, "Please enter a prompt", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        // Load existing prompts from Firebase
-        loadPromptsFromDatabase()
-    }
-    private fun closeDrawer() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START) // Close the drawer
-        }
-    }
-    private fun openDrawer() {
-        drawerLayout.openDrawer(GravityCompat.START) // Open the drawer from the start
-    }
-
-    private fun requestMicrophonePermission() {
-        val requestPermissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-                if (!isGranted) {
-                    Toast.makeText(this, "Microphone permission required", Toast.LENGTH_SHORT).show()
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.isNullOrEmpty()) {
+                    imageView.setImageResource(R.drawable.ic_microphone)
+                    imageView.rotation = 0F
+                } else {
+                    imageView.setImageResource(R.drawable.ic_paper_plane)
+                    imageView.rotation = -40F
                 }
             }
-        requestPermissionLauncher.launch(RECORD_AUDIO)
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        if (editText.text.isNullOrEmpty()) {
+            imageView.setImageResource(R.drawable.ic_microphone)
+            imageView.rotation = 0F
+        } else {
+            imageView.setImageResource(R.drawable.ic_paper_plane)
+            imageView.rotation = -40F
+        }
+
+        requestMicrophonePermission()
+        loadPromptsFromDatabase()
     }
 
     private fun startRecording() {
@@ -182,7 +166,7 @@ class PromptActivity : AppCompatActivity() {
             prepare()
             start()
         }
-        Log.d("MainActivity", "Started recording audio. Saving to: ${audioFile.absolutePath}")
+        Log.d("PromptActivity", "Started recording audio. Saving to: ${audioFile.absolutePath}")
     }
 
     private fun stopRecording() {
@@ -190,11 +174,14 @@ class PromptActivity : AppCompatActivity() {
             stop()
             release()
         }
-        Log.d("MainActivity", "Stopped recording. Audio file saved at: ${audioFile.absolutePath}")
+        Log.d("PromptActivity", "Stopped recording. Audio file saved at: ${audioFile.absolutePath}")
+    }
+    private fun openDrawer() {
+        drawerLayout.openDrawer(GravityCompat.START) // Open the drawer from the start
     }
 
     private fun sendAudioForTranscription(editText: EditText) {
-        Log.d("MainActivity", "Preparing to send audio file: ${audioFile.name}")
+        Log.d("PromptActivity", "Preparing to send audio file: ${audioFile.name}")
 
         val requestBody = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
@@ -206,11 +193,9 @@ class PromptActivity : AppCompatActivity() {
             .post(requestBody)
             .build()
 
-        Log.d("MainActivity", "Sending audio file to server...")
-
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Log.e("MainActivity", "Failed to send audio: ${e.message}")
+                Log.e("PromptActivity", "Failed to send audio: ${e.message}")
                 runOnUiThread {
                     Toast.makeText(this@PromptActivity, "Failed to send audio", Toast.LENGTH_SHORT).show()
                 }
@@ -219,71 +204,52 @@ class PromptActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 response.body?.let { responseBody ->
                     val responseString = responseBody.string()
-                    Log.d("MainActivity", "Received response from server: $responseString")
+                    Log.d("PromptActivity", "Received response from server: $responseString")
 
                     runOnUiThread {
-                        // Assuming the response is in the form: { "transcription": "What about my mother?", "ner": "NER Text" }
                         val (transcription, nerText) = parseTranscription(responseString)
-                        promptsList.lastOrNull()?.let { lastPrompt ->
-                            // Update the last prompt with its NER text
-                            val updatedPrompt = lastPrompt.copy(nerText = nerText)
-                            promptsList[promptsList.size - 1] = updatedPrompt // Update the prompt in the list
-                            promptsAdapter.notifyItemChanged(promptsList.size - 1) // Notify adapter of updated item
-                        }
-                        editText.setText(transcription) // Set transcription to EditText
+                        editText.setText(transcription)
                     }
-                } ?: Log.e("MainActivity", "Response body is null")
+                } ?: Log.e("PromptActivity", "Response body is null")
             }
         })
     }
 
     private fun parseTranscription(response: String): Pair<String, String> {
-        // Parse the response JSON to extract the "transcription" and "ner" fields
         val transcription = Regex("\"transcription\"\\s*:\\s*\"(.*?)\"").find(response)?.groupValues?.get(1) ?: "Error"
         val nerText = Regex("\"ner\"\\s*:\\s*\"(.*?)\"").find(response)?.groupValues?.get(1) ?: ""
         return Pair(transcription, nerText)
     }
 
     private fun addPromptToDatabase(promptText: String, nerText: String) {
-        // Check if the prompt already exists in the list
         val existingPrompt = promptsList.find { it.promptText == promptText }
 
         if (existingPrompt != null) {
-            // If the prompt already exists, show a message and don't add it again
             Toast.makeText(this, "Prompt already exists", Toast.LENGTH_SHORT).show()
-            return // Exit the method
+            return
         }
 
-        // If the prompt does not exist, proceed to add it
-        val promptId = database.push().key // Generate a unique key for each prompt
+        val promptId = database.push().key
         promptId?.let {
             database.child("prompts").child(it).setValue(Prompt(promptText, nerText))
-            promptsList.add(Prompt(promptText, nerText)) // Add to local list
-            promptsAdapter.notifyItemInserted(promptsList.size - 1) // Notify adapter of new item
+            promptsList.add(Prompt(promptText, nerText))
+            promptsAdapter.notifyItemInserted(promptsList.size - 1)
         }
     }
-    private fun callPosterGenerationApi(promptText: String) {
-        // Encode the prompt text to make it URL-safe
-        val encodedPrompt = java.net.URLEncoder.encode(promptText, "UTF-8")
 
-        // Construct the URL with the query parameter
+    private fun callPosterGenerationApi(promptText: String) {
+        val encodedPrompt = java.net.URLEncoder.encode(promptText, "UTF-8")
         val urlWithQuery = "https://pro-genuine-rooster.ngrok-free.app/generate_poster/?user_input=$encodedPrompt"
 
-        // Create a POST request with an empty body
-        val requestBody = RequestBody.create(null, ByteArray(0)) // Empty request body
-
-        // Create the request with the POST method
+        val requestBody = RequestBody.create(null, ByteArray(0))
         val request = Request.Builder()
             .url(urlWithQuery)
-            .post(requestBody) // Send an empty POST request with the query parameter in the URL
+            .post(requestBody)
             .build()
-
-        Log.d("MainActivity", "Sending prompt to generate poster API: $urlWithQuery")
-        Toast.makeText(this, "Generating NER...", Toast.LENGTH_SHORT).show()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Log.e("MainActivity", "Failed to send request: ${e.message}")
+                Log.e("PromptActivity", "Failed to send request: ${e.message}")
                 runOnUiThread {
                     Toast.makeText(this@PromptActivity, "Failed to generate poster", Toast.LENGTH_SHORT).show()
                 }
@@ -292,34 +258,44 @@ class PromptActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 response.body?.let { responseBody ->
                     val responseString = responseBody.string()
-                    Log.d("MainActivity", "Received response from poster API: $responseString")
-
-                    // Handle the response as needed...
+                    Log.d("PromptActivity", "Received response from poster API: $responseString")
 
                     val intent = Intent(this@PromptActivity, NERActivity::class.java)
-                    intent.putExtra("json_data", responseString) // Pass the response to NERActivity
-                    intent.putExtra("prompt_data", promptText) // Pass the prompt text to NERActivity
-                    startActivity(intent) // Start NERActivity
-
-
-                } ?: Log.e("MainActivity", "Response body is null")
+                    intent.putExtra("json_data", responseString)
+                    intent.putExtra("prompt_data", promptText)
+                    startActivity(intent)
+                } ?: Log.e("PromptActivity", "Response body is null")
             }
         })
     }
 
+    private fun requestMicrophonePermission() {
+        val requestPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+                if (!isGranted) {
+                    Toast.makeText(this, "Microphone permission required", Toast.LENGTH_SHORT).show()
+                }
+            }
+        requestPermissionLauncher.launch(RECORD_AUDIO)
+    }
 
+    private fun closeDrawer() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
+    }
 
     private fun loadPromptsFromDatabase() {
         database.child("prompts").get().addOnSuccessListener { dataSnapshot ->
             for (snapshot in dataSnapshot.children) {
                 val prompt = snapshot.getValue(Prompt::class.java)
                 prompt?.let {
-                    promptsList.add(it) // Add to local list
-                    promptsAdapter.notifyItemInserted(promptsList.size - 1) // Notify adapter of new item
+                    promptsList.add(it)
+                    promptsAdapter.notifyItemInserted(promptsList.size - 1)
                 }
             }
         }.addOnFailureListener { exception ->
-            Log.e("MainActivity", "Error loading prompts: ${exception.message}")
+            Log.e("PromptActivity", "Error loading prompts: ${exception.message}")
         }
     }
 }

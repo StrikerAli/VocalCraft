@@ -5,16 +5,16 @@
     android:viewportHeight="24">
     <!-- First rounded rectangle -->
     <path
-        android:fillColor="#000000"
+        android:fillColor="#FFFFFF"
         android:pathData="M3,6h18a2,2,0,0,1,2,2v0a2,2,0,0,1,-2,2h-18a2,2,0,0,1,-2,-2v0a2,2,0,0,1,2,-2z"/>
-
+ss
     <!-- Second rounded rectangle -->
     <path
-        android:fillColor="#000000"
+        android:fillColor="#FFFFFF"
         android:pathData="M3,11h18a2,2,0,0,1,2,2v0a2,2,0,0,1,-2,2h-18a2,2,0,0,1,-2,-2v0a2,2,0,0,1,2,-2z"/>
 
     <!-- Third rounded rectangle -->
     <path
-        android:fillColor="#000000"
+        android:fillColor="#FFFFFF"
         android:pathData="M3,16h18a2,2,0,0,1,2,2v0a2,2,0,0,1,-2,2h-18a2,2,0,0,1,-2,-2v0a2,2,0,0,1,2,-2z"/>
 </vector>
