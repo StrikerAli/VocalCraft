@@ -1,0 +1,11 @@
+<resources>
+    <!-- Dynamic text sizes -->
+    <dimen name="title_text_size">24sp</dimen>
+    <dimen name="feature_text_size">32sp</dimen>
+    <dimen name="description_text_size">16sp</dimen>
+    <dimen name="button_text_size">16sp</dimen>
+
+    <!-- Margins -->
+    <dimen name="horizontal_margin">24dp</dimen>
+    <dimen name="vertical_margin">16dp</dimen>
+</resources> 
