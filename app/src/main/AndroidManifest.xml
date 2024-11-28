@@ -27,7 +27,8 @@
         </activity>
         <activity
             android:name=".SigninMenuActivity"
-            android:exported="true"/>
+            android:windowSoftInputMode="adjustResize"
+        android:exported="true"/>
         <activity
             android:name=".TemplateActivity"
             android:exported="true"/>

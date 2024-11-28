@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -20,6 +21,8 @@ class SignInActivity : AppCompatActivity() {
 
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
+    private lateinit var signupText: TextView
+    private lateinit var googleSignInButton: Button
     private lateinit var signInButton: Button
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference // Firebase Database reference
@@ -30,11 +33,29 @@ class SignInActivity : AppCompatActivity() {
 
         emailEditText = findViewById(R.id.emailEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
-        signInButton = findViewById(R.id.signInButton)
+        signInButton = findViewById(R.id.loginButton)
+        emailEditText = findViewById(R.id.emailEditText)
+        signupText = findViewById(R.id.signupText)
+        googleSignInButton = findViewById(R.id.googleSignInButton)
 
         // Initialize Firebase Auth and Database
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().reference // Initialize the database reference
+
+        signupText.setOnClickListener {
+            val intent = Intent(this, SignUpActivity::class.java)
+            startActivity(intent)
+        }
+
+        googleSignInButton.setOnClickListener {
+            val intent = Intent(this, SigninMenuActivity::class.java)
+
+            // Pass data in the intent
+            intent.putExtra("TRIGGER_SIGN_IN", true) // Use a specific value like true
+            startActivity(intent)
+        }
+
+
 
         signInButton.setOnClickListener {
             signInUser()

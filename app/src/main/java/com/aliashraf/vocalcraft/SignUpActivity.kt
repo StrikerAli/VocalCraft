@@ -1,5 +1,6 @@
 package com.aliashraf.vocalcraft
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -23,6 +24,7 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var signUpButton: Button
     private lateinit var auth: FirebaseAuth
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.signup)
@@ -30,7 +32,7 @@ class SignUpActivity : AppCompatActivity() {
         nameEditText = findViewById(R.id.nameEditText)
         emailEditText = findViewById(R.id.emailEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
-        signUpButton = findViewById(R.id.signUpButton)
+        signUpButton = findViewById(R.id.createAccountButton)
         FirebaseApp.initializeApp(this)
 
         // Initialize Firebase Auth

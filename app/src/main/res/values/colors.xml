@@ -2,4 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="background_color">#F8F8F8</color> <!-- Light gray background -->
+
+    <color name="primary_text">#1A1A1A</color> <!-- Dark gray for primary text -->
+    <color name="secondary_text">#7A7A7A</color> <!-- Medium gray for secondary text -->
+    <color name="link_text">#4A90E2</color> <!-- Blue for clickable links -->
+
+    <color name="primary_button">#6C63FF</color> <!-- Purple for main buttons -->
+    <color name="secondary_button">#F4F4F4</color> <!-- Light gray for secondary buttons -->
+
+    <color name="success">#4CAF50</color> <!-- Green for success indicators -->
+    <color name="error">#F44336</color>
 </resources>

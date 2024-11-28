@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.Toast
 import android.Manifest.permission.RECORD_AUDIO
 import android.annotation.SuppressLint
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -88,7 +89,7 @@ class PromptActivity : AppCompatActivity() {
         }
         recyclerView.adapter = promptsAdapter
 
-        val googleSignInButton = findViewById<Button>(R.id.googleSignInButton)
+        val googleSignInButton = findViewById<TextView>(R.id.welcomeTextView)
 
         val fabMicrophone = findViewById<FloatingActionButton>(R.id.fab_microphone)
         editText = findViewById(R.id.editText) // Initialize editText here
@@ -108,7 +109,7 @@ class PromptActivity : AppCompatActivity() {
         val username = intent.getStringExtra("USERNAME")
         if (!username.isNullOrEmpty()) {
             // set username in googleSignInButton
-            googleSignInButton.text = "Welcome, $username"
+            googleSignInButton.text = "Welcome $username, Let's Get Started"
         }
 
         submitButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#21bf63"))

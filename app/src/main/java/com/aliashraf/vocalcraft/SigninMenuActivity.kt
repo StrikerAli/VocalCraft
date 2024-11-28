@@ -60,6 +60,13 @@ class SigninMenuActivity : AppCompatActivity() {
         signInButton.setOnClickListener {
             signIn()
         }
+
+        val shouldTriggerSignIn = intent.getBooleanExtra("TRIGGER_SIGN_IN", false)
+
+        // Call signIn function only if the condition is met
+        if (shouldTriggerSignIn) {
+            signIn()
+        }
     }
 
     private fun signIn() {
