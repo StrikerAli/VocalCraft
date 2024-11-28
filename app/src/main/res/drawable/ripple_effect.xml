@@ -1,0 +1,9 @@
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#A6A6A6">
+    <item>
+        <shape>
+            <solid android:color="#3B82F6" /> <!-- Base button color -->
+            <corners android:radius="50dp" />
+        </shape>
+    </item>
+</ripple>

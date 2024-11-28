@@ -1,0 +1,19 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <!-- Button's Background Color -->
+            <solid android:color="@color/secondary_button" />
+            <!-- Button's Corner Radius -->
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item android:width="2dp" android:height="2dp">
+        <shape android:shape="rectangle">
+            <!-- Border/Stroke Color -->
+            <stroke android:width="2dp" android:color="#6C63FF" />
+            <corners android:radius="8dp" />
+            <!-- Transparent fill to avoid double color effect -->
+            <solid android:color="@android:color/transparent" />
+        </shape>
+    </item>
+</layer-list>
