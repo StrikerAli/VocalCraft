@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.view.View
+import androidx.cardview.widget.CardView
 import yuku.ambilwarna.AmbilWarnaDialog
 import yuku.ambilwarna.AmbilWarnaDialog.OnAmbilWarnaListener
 
@@ -17,11 +18,13 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.profile)
 
         // Access components using findViewById
-        val companyNameEditText: EditText = findViewById(R.id.companyNameEditText)
-        val primaryThemePicker: View = findViewById(R.id.primaryThemePicker)
-        val secondaryThemePicker: View = findViewById(R.id.secondaryThemePicker)
+        val companyNameEditText: EditText = findViewById(R.id.companynametextedit)
+        val primaryThemePicker: CardView = findViewById(R.id.primaryThemePicker)
+        val secondaryThemePicker: CardView = findViewById(R.id.secondaryThemePicker)
         val saveButton: Button = findViewById(R.id.saveButton)
-
+        fun dpToPx(dp: Int): Float {
+            return dp * resources.displayMetrics.density
+        }
         // Example: Set up color picker for the primary theme
         primaryThemePicker.setOnClickListener {
             // Open the color picker dialog for primary theme
@@ -30,7 +33,7 @@ class ProfileActivity : AppCompatActivity() {
                 OnAmbilWarnaListener {
                 override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
                     // Set the selected color to the primary theme picker
-                    primaryThemePicker.setBackgroundColor(color)
+                    primaryThemePicker.setCardBackgroundColor(color)
                 }
 
                 override fun onCancel(dialog: AmbilWarnaDialog?) {
@@ -48,7 +51,8 @@ class ProfileActivity : AppCompatActivity() {
                 OnAmbilWarnaListener {
                 override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
                     // Set the selected color to the secondary theme picker
-                    secondaryThemePicker.setBackgroundColor(color)
+                    secondaryThemePicker.setCardBackgroundColor(color)
+                    //set radius
                 }
 
                 override fun onCancel(dialog: AmbilWarnaDialog?) {

@@ -15,9 +15,11 @@ import android.Manifest.permission.RECORD_AUDIO
 import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.view.animation.AlphaAnimation
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +32,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import okhttp3.Call
 import okhttp3.Callback
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -53,6 +56,10 @@ class PromptActivity : AppCompatActivity() {
     private lateinit var imageView: ImageView
     private lateinit var promptButton: Button
     private lateinit var submitButton: Button
+    private lateinit var textView1: TextView
+    private lateinit var textView_2: TextView
+    private lateinit var icon1: ImageView
+    private lateinit var icon2: ImageView
     private lateinit var editText: EditText
 
     private var isRecording = false
@@ -71,6 +78,7 @@ class PromptActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         FirebaseApp.initializeApp(this)
         firebaseAuth = FirebaseAuth.getInstance()
         database = Firebase.database.reference
@@ -88,11 +96,48 @@ class PromptActivity : AppCompatActivity() {
         submitButton = findViewById(R.id.submitButton)
         promptButton = findViewById(R.id.promptbutton)
         drawerLayout = findViewById(R.id.drawer_layout)
+        // Find all elements in the layout
+        val mainLayout: View = findViewById(R.id.main) // The main ConstraintLayout
+        val drawerLayout: View = findViewById(R.id.drawer_layout) // The DrawerLayout
+        val navigationView: View = findViewById(R.id.navigation_view) // The NavigationView
+
+        // Create a fade-in animation
+        val fadeIn = AlphaAnimation(0.0f, 1.0f).apply {
+            duration = 3000 // 3 seconds
+        }
+
+        // Start the animation on the main layout and navigation view
+        mainLayout.startAnimation(fadeIn)
+        drawerLayout.startAnimation(fadeIn)
+        navigationView.startAnimation(fadeIn)
+        val icon1 = findViewById<ImageView>(R.id.icon1)
+        val icon2 = findViewById<ImageView>(R.id.icon2)
+        val textView1 = findViewById<TextView>(R.id.textView1)
+        val textView_2 = findViewById<TextView>(R.id.textView_2)
+
         val welcomeTextView = findViewById<TextView>(R.id.welcomeTextView)
         val currentUser = FirebaseAuth.getInstance().currentUser
         val username = currentUser?.displayName ?: currentUser?.email ?: "User"
         val welcomeMessage = "Welcome, $username, Let's Get Started"
         welcomeTextView.setText(welcomeMessage)
+
+        // Handle icon clicks
+        icon1.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+        icon2.setOnClickListener {
+            val intent = Intent(this, TemplateActivity::class.java)
+            startActivity(intent)
+        }
+        textView1.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+        textView_2.setOnClickListener {
+            val intent = Intent(this, TemplateActivity::class.java)
+            startActivity(intent)
+        }
 
         // Handle submit button click
         submitButton.setOnClickListener {
@@ -125,6 +170,9 @@ class PromptActivity : AppCompatActivity() {
         //change color of Sumbit Button
         submitButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#5654f7"))
         promptButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#5654f7"))
+
+
+
 
 
         // TextWatcher to handle dynamic icon changes
@@ -189,7 +237,7 @@ class PromptActivity : AppCompatActivity() {
             .build()
 
         val request = Request.Builder()
-            .url("https://pro-genuine-rooster.ngrok-free.app/transcribe")
+            .url("https://exotic-crab-miserably.ngrok-free.app/transcribe")
             .post(requestBody)
             .build()
 
@@ -238,14 +286,27 @@ class PromptActivity : AppCompatActivity() {
     }
 
     private fun callPosterGenerationApi(promptText: String) {
-        val encodedPrompt = java.net.URLEncoder.encode(promptText, "UTF-8")
-        val urlWithQuery = "https://pro-genuine-rooster.ngrok-free.app/generate_poster/?user_input=$encodedPrompt"
+        // Define the API URL for the POST request
+        val url = "https://exotic-crab-miserably.ngrok-free.app/ner"
 
-        val requestBody = RequestBody.create(null, ByteArray(0))
+        // Create the JSON body with the "prompt" key
+        val jsonBody = """{ "prompt": "$promptText" }"""
+
+        // Create the request body
+        val requestBody = RequestBody.create(
+            "application/json".toMediaTypeOrNull(),
+            jsonBody
+        )
+
+        // Build the POST request
         val request = Request.Builder()
-            .url(urlWithQuery)
+            .url(url)
             .post(requestBody)
+            .addHeader("Content-Type", "application/json")
             .build()
+
+        // Create OkHttpClient and execute the request
+        val client = OkHttpClient()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -256,15 +317,25 @@ class PromptActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                response.body?.let { responseBody ->
-                    val responseString = responseBody.string()
-                    Log.d("PromptActivity", "Received response from poster API: $responseString")
+                if (response.isSuccessful) {
+                    // Handle the successful response
+                    response.body?.let { responseBody ->
+                        val responseString = responseBody.string()
+                        Log.d("PromptActivity", "Received response from poster API: $responseString")
 
-                    val intent = Intent(this@PromptActivity, NERActivity::class.java)
-                    intent.putExtra("json_data", responseString)
-                    intent.putExtra("prompt_data", promptText)
-                    startActivity(intent)
-                } ?: Log.e("PromptActivity", "Response body is null")
+                        // Pass the response data and prompt text to the next activity
+                        val intent = Intent(this@PromptActivity, NERActivity::class.java)
+                        intent.putExtra("json_data", responseString)
+                        intent.putExtra("prompt_data", promptText)
+                        startActivity(intent)
+                    }
+                } else {
+                    // Handle failure case when response is not successful
+                    Log.e("PromptActivity", "Request failed with status code: ${response.code}")
+                    runOnUiThread {
+                        Toast.makeText(this@PromptActivity, "Error in generating poster", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         })
     }

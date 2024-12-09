@@ -2,7 +2,7 @@
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.android) apply false
-    id("com.google.gms.google-services") version "4.3.15" apply false // Add "apply false" to avoid applying at this level
+    id("com.google.gms.google-services") version "4.4.2" apply false // Add "apply false" to avoid applying at this level
 }
 
 // Configure the buildscript block if required
@@ -10,6 +10,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        jcenter() // Optional, for backward compatibility
     }
     dependencies {
         // Additional dependencies for the build script (if required)

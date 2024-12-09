@@ -1,15 +1,23 @@
 [versions]
 agp = "8.6.0"
+bom = "1.0.0"
+bomVersion = "VERSION"
 colorpicker = "0.0.13"
+dropboxCoreSdk = "3.0.11"
 firebaseAuthVersion = "22.1.1"
 firebaseBom = "33.4.0"
+glide = "4.13.0"
 googleServices = "4.4.2"
+gotrueKt = "1.5.0"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
+ktorClientAndroid = "1.0.0"
+ktorClientLogging = "1.0.0"
+ktorClientSerialization = "1.0.0"
 material = "1.12.0"
 activity = "1.8.0"
 constraintlayout = "2.1.4"
@@ -23,18 +31,30 @@ firebaseAuthKtx = "23.0.0"
 firebaseDatabaseKtx = "21.0.0"
 firebaseDatabase = "21.0.0"
 firebaseFirestoreKtx = "25.1.0"
+foundationAndroid = "1.7.5"
+firebaseStorage = "21.0.1"
+storageKt = "1.5.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+auth-kt = { module = "io.github.jan-tennert.supabase:auth-kt" }
+bom = { module = "io.github.jan-tennert.supabase:bom", version.ref = "bom" }
+bom-vversion = { module = "io.github.jan-tennert.supabase:bom", version.ref = "bomVersion" }
 colorpicker = { module = "com.github.QuadFlask:colorpicker", version.ref = "colorpicker" }
+dropbox-core-sdk = { module = "com.dropbox.core:dropbox-core-sdk", version.ref = "dropboxCoreSdk" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth-v2211 = { module = "com.google.firebase:firebase-auth", version.ref = "firebaseAuthVersion" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
+gotrue-kt = { module = "io.supabase:gotrue-kt", version.ref = "gotrueKt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktorClientAndroid" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorClientLogging" }
+ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktorClientSerialization" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
@@ -47,6 +67,13 @@ firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx",
 firebase-database-ktx = { group = "com.google.firebase", name = "firebase-database-ktx", version.ref = "firebaseDatabaseKtx" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
+androidx-foundation-android = { group = "androidx.compose.foundation", name = "foundation-android", version.ref = "foundationAndroid" }
+firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
+postgrest-kt = { module = "io.github.jan-tennert.supabase:postgrest-kt" }
+realtime-kt = { module = "io.github.jan-tennert.supabase:realtime-kt" }
+storage-kt = { module = "io.supabase:storage-kt", version.ref = "storageKt" }
+supabase-postgrest-kt = { module = "io.github.jan-tennert.supabase:postgrest-kt" }
+supabase-storage-kt = { module = "io.github.jan-tennert.supabase:storage-kt" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

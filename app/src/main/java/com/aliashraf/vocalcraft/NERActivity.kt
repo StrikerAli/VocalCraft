@@ -1,6 +1,7 @@
 package com.aliashraf.vocalcraft
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
@@ -111,7 +112,7 @@ class NERActivity : AppCompatActivity() {
                         editText.hint = formattedKey
                         editText.setTextColor(ContextCompat.getColor(this, R.color.black)) // Set text color
                         editText.setHintTextColor(ContextCompat.getColor(this, android.R.color.darker_gray)) // Set hint text color
-                        editText.background = resources.getDrawable(R.drawable.edit_text_boundary) // Set background
+                        editText.background = resources.getDrawable(R.drawable.rounded_edittext_noborder) // Set background
                         editText.setPadding(24, 12, 12, 12) // Set padding
 
                         // Add to the list of EditTexts
@@ -201,6 +202,13 @@ class NERActivity : AppCompatActivity() {
 
             // Show the JSON in a Toast or proceed with submission logic
             Toast.makeText(this, "Form Submitted. JSON: $jsonString", Toast.LENGTH_LONG).show()
+            Log.d("NERActivity", "Received response from poster API: $jsonString")
+            //launch imageActivity
+            val intent = Intent(this, ImageActivity::class.java)
+            //pass the json string to the next activity
+            intent.putExtra("json_data", jsonString)
+            intent.putExtra("prompt_data", promptData)
+            startActivity(intent)
         }
     }
 

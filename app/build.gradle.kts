@@ -52,8 +52,18 @@ dependencies {
     implementation(libs.firebase.database.ktx)
     implementation(libs.firebase.database)
     implementation(libs.firebase.firestore.ktx)
+    implementation(libs.androidx.foundation.android)
+    implementation(libs.firebase.storage)
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+
+    implementation (libs.dropbox.core.sdk)
+
+    implementation (libs.glide)
+
+    // Other dependencies you might need
+
+
 }
 apply(plugin = "com.google.gms.google-services")

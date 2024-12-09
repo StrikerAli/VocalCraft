@@ -19,6 +19,19 @@
             android:layout_height="match_parent"
             android:background="#FFFFFF">
 
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="173dp"
+                android:layout_height="144dp"
+                android:layout_marginStart="104dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="100dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/welcomeTextView"
+                app:srcCompat="@drawable/megaphone" />
+
             <TextView
                 android:id="@+id/welcomeTextView"
                 android:layout_width="251dp"
@@ -83,7 +96,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:background="@drawable/rounded_edittext"
+                android:background="@drawable/rounded_edittext_noborder"
                 android:gravity="start|center_vertical"
                 android:hint="Enter your text here"
                 android:inputType="textMultiLine"
@@ -116,18 +129,7 @@
                 app:layout_constraintTop_toTopOf="@+id/submitButton"
                 app:srcCompat="@drawable/ic_paper_plane" />
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="173dp"
-                android:layout_height="144dp"
-                android:layout_marginStart="104dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="100dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/welcomeTextView"
-                app:srcCompat="@drawable/megaphone" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

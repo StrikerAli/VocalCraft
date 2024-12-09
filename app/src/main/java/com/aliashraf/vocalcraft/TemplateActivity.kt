@@ -156,7 +156,7 @@ class TemplateActivity : AppCompatActivity() {
                         editText.hint = formattedKey
                         editText.setTextColor(ContextCompat.getColor(this, R.color.black)) // Set text color
                         editText.setHintTextColor(ContextCompat.getColor(this, android.R.color.darker_gray)) // Set hint text color
-                        editText.background = resources.getDrawable(R.drawable.edit_text_boundary) // Set background
+                        editText.background = resources.getDrawable(R.drawable.rounded_edittext_noborder) // Set background
                         editText.setPadding(24, 12, 12, 12) // Set padding
                         editText.isFocusable = false
                         editText.isFocusableInTouchMode = false
