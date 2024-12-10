@@ -159,6 +159,9 @@ class NERActivity : AppCompatActivity() {
     }
 
     // Handle submit button click
+    private var isSecondPress = false // Track if this is the second press
+
+    // Handle submit button click
     private fun handleSubmit(jsonObject: JSONObject, promptData: String?) {
         var firstEmptyEditText: EditText? = null
         var allFilled = true
@@ -166,51 +169,63 @@ class NERActivity : AppCompatActivity() {
         // Convert JSONObject to String
         var jsonString = jsonObject.toString()
 
-        // Count occurrences of "null"
-        val nullCount = jsonString.split("null").size - 1 // Counts the number of "null"
+        // Track empty fields
+        val emptyFields = mutableListOf<String>()
         var replacementIndex = 0 // Track which EditText value to use for replacement
 
         for (i in 0 until emptyCounter) {
             val editText = findViewById<EditText>(i)
+            val label = editTexts[i].hint?.toString() ?: "Field $i" // Get label text
 
-            if (replacementIndex < nullCount) {
-                // Only replace if the new value is not empty
-                if (editText.text.isNotEmpty()) {
-                    // Replace only the next "null" with the current EditText value
-                    jsonString = jsonString.replaceFirst("null", editText.text.toString())
-                    replacementIndex++ // Move to the next replacement
+            if (editText.text.isEmpty()) {
+                if (!isSecondPress) {
+                    // On first press, collect empty fields
+                    allFilled = false
+                    emptyFields.add(label)
+
+                    if (firstEmptyEditText == null) {
+                        firstEmptyEditText = editText // Highlight the first empty field
+                    }
+                } else {
+                    // On second press, replace empty fields with "None"
+                    jsonString = jsonString.replaceFirst("null", "\"None\"")
                 }
+            } else {
+                // Replace "null" with the EditText value if filled
+                jsonString = jsonString.replaceFirst("null", "\"${editText.text}\"")
+                replacementIndex++ // Move to the next replacement
             }
         }
 
-        if (replacementIndex < nullCount) {
-            // If not all fields are filled, update the first empty EditText
-            allFilled = false
-            firstEmptyEditText = editTexts.firstOrNull { it.text.isEmpty() }
-        }
+        if (!allFilled && !isSecondPress) {
+            // Show empty fields to the user on the first press
+            Toast.makeText(
+                this,
+                "Please fill the following fields: ${emptyFields.joinToString(", ")}",
+                Toast.LENGTH_LONG
+            ).show()
 
-        if (!allFilled) {
-            Toast.makeText(this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show()
             firstEmptyEditText?.requestFocus()
             scrollToView(firstEmptyEditText)
+            isSecondPress = true // Set the second press flag
         } else {
-            // All fields are filled; create the updated JSON string
-            Log.d("MainActivity", "Received response from poster API: $jsonString")
+            // Allow submission on the second press or if all fields are filled
+            Log.d("NERActivity", "Final JSON: $jsonString")
 
             // Save to Firebase
             savePromptToFirebase(promptData, jsonString)
 
             // Show the JSON in a Toast or proceed with submission logic
             Toast.makeText(this, "Form Submitted. JSON: $jsonString", Toast.LENGTH_LONG).show()
-            Log.d("NERActivity", "Received response from poster API: $jsonString")
-            //launch imageActivity
+
+            // Launch ImageActivity
             val intent = Intent(this, ImageActivity::class.java)
-            //pass the json string to the next activity
             intent.putExtra("json_data", jsonString)
             intent.putExtra("prompt_data", promptData)
             startActivity(intent)
         }
     }
+
 
     // Save the prompt to Firebase
     private fun savePromptToFirebase(promptData: String?, jsonString: String) {
@@ -226,7 +241,7 @@ class NERActivity : AppCompatActivity() {
                             database.child(it).child("nerText").setValue(jsonString)
                                 .addOnSuccessListener {
                                     Log.d("MainActivity", "NerText updated successfully.")
-                                }
+                                } // success
                                 .addOnFailureListener { e ->
                                     Log.e("MainActivity", "Failed to update NerText: ${e.message}")
                                 }
@@ -236,14 +251,17 @@ class NERActivity : AppCompatActivity() {
                         val prompt = Prompt(promptText = promptData, nerText = jsonString)
                         database.push().setValue(prompt)
                             .addOnSuccessListener {
+                                // Success
                                 Log.d("MainActivity", "New prompt saved successfully.")
                             }
                             .addOnFailureListener { e ->
+                                // Failure
                                 Log.e("MainActivity", "Failed to save new prompt: ${e.message}")
                             }
                     }
                 }
                 .addOnFailureListener { e ->
+                    // Error querying the database
                     Log.e("MainActivity", "Error querying database: ${e.message}")
                 }
         } else {
@@ -255,6 +273,7 @@ class NERActivity : AppCompatActivity() {
     // Scroll to the specified view
     private fun scrollToView(view: EditText?) {
         view?.let {
+            // Get the ScrollView
             val scrollView = findViewById<ScrollView>(R.id.scroll_view) // Get the ScrollView
             val y = it.y.toInt() + it.height // Get the y position of the EditText, plus its height
             scrollView.smoothScrollTo(0, y + 80) // Smooth scroll to the position

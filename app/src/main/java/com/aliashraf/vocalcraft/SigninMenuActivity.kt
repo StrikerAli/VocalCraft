@@ -113,7 +113,7 @@ class SigninMenuActivity : AppCompatActivity() {
             }
         }
     }
-
+    // Sign in with Google credentials
     private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
         Log.d("SigninMenuActivity", "firebaseAuthWithGoogle:" + account.id)
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
@@ -134,7 +134,7 @@ class SigninMenuActivity : AppCompatActivity() {
                 }
             }
     }
-
+    // Set up floating animation for the microphone icon
     private fun setupFloatingAnimation() {
         val microphoneContainer = findViewById<CardView>(R.id.microphoneContainer)
         

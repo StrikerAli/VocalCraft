@@ -33,7 +33,7 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.signup)
-
+        // Access components using findViewById
         nameEditText = findViewById(R.id.nameEditText)
         loginLinkText = findViewById(R.id.loginLinkText)
         emailEditText = findViewById(R.id.emailEditText)
@@ -64,7 +64,7 @@ class SignUpActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
     }
-
+    // Update the password strength based on the length of the password
     private fun updatePasswordStrength(password: String) {
         when {
             password.length <= 4 -> {
@@ -84,7 +84,7 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
     }
-
+    // Sign up the user with email and password
     private fun signUpUser() {
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("message")

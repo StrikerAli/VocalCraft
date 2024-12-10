@@ -18,11 +18,13 @@ class PromptsAdapter(
         return PromptViewHolder(view)
     }
 
+    // Bind the data to the ViewHolder
     override fun onBindViewHolder(holder: PromptViewHolder, position: Int) {
         val prompt = prompts[position]
         holder.bind(prompt)
     }
 
+    // Return the number of items in the list
     override fun getItemCount(): Int = prompts.size
 
     inner class PromptViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

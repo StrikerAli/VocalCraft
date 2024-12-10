@@ -27,6 +27,7 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference // Firebase Database reference
 
+    // Initialize the Firebase Auth and Database
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.signin)
@@ -47,6 +48,7 @@ class SignInActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //Google Sign in CLick Watcher
         googleSignInButton.setOnClickListener {
             val intent = Intent(this, SigninMenuActivity::class.java)
 
@@ -61,7 +63,7 @@ class SignInActivity : AppCompatActivity() {
             signInUser()
         }
     }
-
+    // Sign in the user with email and password
     private fun signInUser() {
         val email = emailEditText.text.toString().trim()
         val password = passwordEditText.text.toString().trim()
@@ -93,6 +95,7 @@ class SignInActivity : AppCompatActivity() {
             }
     }
 
+    // Retrieve the username by email
     private fun retrieveUsername(email: String) {
         // Query the Users node to find the username by email
         database.child("Users").orderByChild("email").equalTo(email)
@@ -114,7 +117,7 @@ class SignInActivity : AppCompatActivity() {
                         Toast.makeText(this@SignInActivity, "No user found with the provided email", Toast.LENGTH_SHORT).show()
                     }
                 }
-
+                // Handle the error
                 override fun onCancelled(databaseError: DatabaseError) {
                     Log.w("SignInActivity", "loadPost:onCancelled", databaseError.toException())
                 }
