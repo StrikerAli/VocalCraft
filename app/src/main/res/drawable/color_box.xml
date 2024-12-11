@@ -8,7 +8,6 @@
     android:width="4dp" />
 
     <!-- Rounded corners (optional) -->
-    <corners android:radius="16dp" />
 
     <!-- Padding (optional) -->
     <padding

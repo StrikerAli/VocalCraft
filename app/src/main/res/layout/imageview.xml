@@ -18,9 +18,9 @@
     <!-- FrameLayout to hold the ImageView with a border -->
     <FrameLayout
         android:id="@+id/imageFrame"
-        android:layout_width="400dp"
+        android:layout_width= "match_parent"
         android:layout_height="400dp"
-        android:layout_margin="32dp"
+        android:layout_margin="0dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/backButton"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +30,7 @@
         <!-- ImageView inside the FrameLayout -->
         <ImageView
             android:id="@+id/largeImageView"
-            android:layout_width="400dp"
+            android:layout_width="match_parent"
             android:layout_height="400dp"
             android:contentDescription="Large Image"
             app:srcCompat="@drawable/color_box" />

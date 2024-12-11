@@ -1,4 +1,4 @@
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
     <background android:drawable="@color/white" />
-    <foreground android:drawable="@drawable/megaphone" />
+    <foreground android:drawable="@drawable/megaphone3" />
 </adaptive-icon>

@@ -58,7 +58,8 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-
+    implementation (libs.androidsvg)
+    implementation ("com.davemorrissey.labs:subsampling-scale-image-view:3.10.0")
     implementation (libs.dropbox.core.sdk)
 
     implementation (libs.glide)

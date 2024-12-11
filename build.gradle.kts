@@ -11,7 +11,9 @@ buildscript {
         google()
         mavenCentral()
         jcenter() // Optional, for backward compatibility
-    }
+        maven {
+            url = uri("https://jitpack.io") // Correct syntax for JitPack
+        }    }
     dependencies {
         // Additional dependencies for the build script (if required)
     }

@@ -116,10 +116,19 @@ class PromptActivity : AppCompatActivity() {
         val textView_2 = findViewById<TextView>(R.id.textView_2)
 
         val welcomeTextView = findViewById<TextView>(R.id.welcomeTextView)
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        val username = currentUser?.displayName ?: currentUser?.email ?: "User"
+
+        // Check if the intent has an extra named "Username"
+        val intentUsername = intent.getStringExtra("USERNAME")
+        val username = if (!intentUsername.isNullOrEmpty()) {
+            intentUsername
+        } else {
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            currentUser?.displayName ?: currentUser?.email ?: "User"
+        }
+
         val welcomeMessage = "Welcome, $username, Let's Get Started"
-        welcomeTextView.setText(welcomeMessage)
+        welcomeTextView.text = welcomeMessage
+
 
         // Handle icon clicks
         icon1.setOnClickListener {

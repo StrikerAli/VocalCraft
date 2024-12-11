@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/logoImageView2"
-        android:layout_width="240dp"
-        android:layout_height="240dp"
+        android:layout_width="406dp"
+        android:layout_height="310dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/megaphone" />
+        android:src="@drawable/megaphone2" />
 </RelativeLayout>

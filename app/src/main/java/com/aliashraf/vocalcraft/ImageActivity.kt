@@ -55,7 +55,8 @@ class ImageActivity : AppCompatActivity() {
 
         Glide.with(this)
             .asGif() // Load as GIF
-            .load(R.drawable.loadingimage) // You can also use a URL or Base64
+            //.load(R.drawable.loadingimage) // You can also use a URL or Base64
+            .load("https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif")
             .into(imageView)
 
         val jsonData = intent.getStringExtra("json_data")
