@@ -13,12 +13,16 @@ import android.widget.TextView
 import android.widget.Toast
 import android.Manifest.permission.RECORD_AUDIO
 import android.annotation.SuppressLint
+import android.graphics.Rect
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.animation.AlphaAnimation
+import android.widget.ScrollView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.Group
 
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -77,6 +81,38 @@ class PromptActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        editText = findViewById(R.id.editText)
+        val rootView = findViewById<View>(R.id.main) // Your root layout (ConstraintLayout or any parent)
+        val viewsToMove = listOf(
+            findViewById<TextView>(R.id.welcomeTextView),
+            findViewById<ImageView>(R.id.imageView3),
+            findViewById<Button>(R.id.promptbutton),
+            findViewById<ImageView>(R.id.imageView2),
+            findViewById<TextView>(R.id.textView2)
+        )
+
+        rootView.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = Rect()
+            rootView.getWindowVisibleDisplayFrame(rect)
+
+            val screenHeight = rootView.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
+
+            if (keypadHeight > screenHeight * 0.15) {
+                // Keyboard is OPEN
+                viewsToMove.forEach { view ->
+                    view.translationY = -200 * resources.displayMetrics.density // Move up 200dp
+                }
+            } else {
+                // Keyboard is CLOSED
+                viewsToMove.forEach { view ->
+                    view.translationY = 0f // Reset position
+                }
+            }
+        }
+
+
+
 
 
         FirebaseApp.initializeApp(this)
@@ -91,7 +127,6 @@ class PromptActivity : AppCompatActivity() {
         }
         recyclerView.adapter = promptsAdapter
 
-        editText = findViewById(R.id.editText)
         imageView = findViewById(R.id.imageView)
         submitButton = findViewById(R.id.submitButton)
         promptButton = findViewById(R.id.promptbutton)
@@ -177,8 +212,8 @@ class PromptActivity : AppCompatActivity() {
         }
 
         //change color of Sumbit Button
-        submitButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#5654f7"))
-        promptButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#5654f7"))
+        submitButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FF8C00"))
+        promptButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FF8C00"))
 
 
 
@@ -214,7 +249,7 @@ class PromptActivity : AppCompatActivity() {
     }
 
     private fun startRecording() {
-        audioFile = File.createTempFile("audio", ".3gp", cacheDir)
+        audioFile = File.createTempFile("audio", ".m4a", cacheDir)
         mediaRecorder = MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
@@ -242,11 +277,15 @@ class PromptActivity : AppCompatActivity() {
 
         val requestBody = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
-            .addFormDataPart("file", audioFile.name, RequestBody.create("audio/3gp".toMediaTypeOrNull(), audioFile))
+            .addFormDataPart(
+                "file",
+                audioFile.name,
+                RequestBody.create("audio/m4a".toMediaTypeOrNull(), audioFile) // Updated MIME type
+            )
             .build()
 
         val request = Request.Builder()
-            .url("https://exotic-crab-miserably.ngrok-free.app/transcribe")
+            .url("http://34.224.116.87:8000/transcribe")
             .post(requestBody)
             .build()
 
@@ -272,11 +311,17 @@ class PromptActivity : AppCompatActivity() {
         })
     }
 
+
     private fun parseTranscription(response: String): Pair<String, String> {
         val transcription = Regex("\"transcription\"\\s*:\\s*\"(.*?)\"").find(response)?.groupValues?.get(1) ?: "Error"
-        val nerText = Regex("\"ner\"\\s*:\\s*\"(.*?)\"").find(response)?.groupValues?.get(1) ?: ""
-        return Pair(transcription, nerText)
+
+        // Extract the actual text from Transcription(text='...')
+        val textMatch = Regex("Transcription\\(text='(.*?)'").find(transcription)?.groupValues?.get(1) ?: "Error"
+
+        val nerText = ""  // No nerText in your response
+        return Pair(textMatch, nerText)
     }
+
 
     private fun addPromptToDatabase(promptText: String, nerText: String) {
         val existingPrompt = promptsList.find { it.promptText == promptText }
@@ -296,7 +341,7 @@ class PromptActivity : AppCompatActivity() {
 
     private fun callPosterGenerationApi(promptText: String) {
         // Define the API URL for the POST request
-        val url = "https://exotic-crab-miserably.ngrok-free.app/ner"
+        val url = "http://34.224.116.87:8000/ner"
 
         // Create the JSON body with the "prompt" key
         val jsonBody = """{ "prompt": "$promptText" }"""

@@ -124,7 +124,7 @@ class SigninMenuActivity : AppCompatActivity() {
                     Log.d("SigninMenuActivity", "signInWithCredential:success: ${user?.displayName}")
                     Toast.makeText(this, "Welcome ${user?.displayName}", Toast.LENGTH_SHORT).show()
                     // Optionally, navigate to the main activity or another screen
-                    val intent = Intent(this, PromptActivity::class.java).apply {
+                    val intent = Intent(this, ImageInsertActivity::class.java).apply {
                         putExtra("USERNAME", user?.displayName) // Pass the display name to the next activity
                     }
                     startActivity(intent)

@@ -5,10 +5,11 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@drawable/yellow_background"
     tools:context=".SigninMenuActivity">
 
     <ScrollView
+        android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -17,7 +18,9 @@
             android:id="@+id/main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#FFFFFF">
+            android:background="@drawable/yellow_background">
+
+
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -59,7 +62,6 @@
                 android:background="@drawable/circular_button"
                 android:backgroundTint="@null"
                 android:contentDescription="Prompt"
-                android:theme="@style/ThemeOverlay.AppCompat.Light"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,12 +86,13 @@
                 android:padding="12dp"
                 android:text="Your prompt should include some basic menu features like size (width and height), Company name, types of menu items (like burgers, pizza, wraps, etc.) and a few items per type. For images provide an image description"
                 android:textAlignment="center"
-                android:textColor="#6C6C6C"
+                android:textColor="#000000"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.568"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
 
             <EditText
                 android:id="@+id/editText"

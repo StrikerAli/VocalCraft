@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileActivity"
-    android:background="#efeefe">
+    android:background="@drawable/yellow_background">
 
     <!-- Icon -->
     <ImageView
@@ -28,7 +28,7 @@
         android:text="Profile Setup"
         android:textStyle="bold"
         android:textSize="24sp"
-        android:textColor="#5956fb"
+        android:textColor="#FF8C00"
         android:layout_marginStart="12dp"
         app:layout_constraintStart_toEndOf="@id/iconImage"
         app:layout_constraintTop_toTopOf="@id/iconImage"
@@ -124,7 +124,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@android:color/white"
-        android:backgroundTint="#5956fb"
+        android:backgroundTint="#FF8C00"
         app:cornerRadius="15dp"
         app:elevation="8dp"
         android:stateListAnimator="@null"

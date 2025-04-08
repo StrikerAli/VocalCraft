@@ -10,7 +10,10 @@
 
     <color name="primary_button">#6C63FF</color> <!-- Purple for main buttons -->
     <color name="secondary_button">#F4F4F4</color> <!-- Light gray for secondary buttons -->
-
+    <color name="colorAccent">#FF4081</color>
     <color name="success">#4CAF50</color> <!-- Green for success indicators -->
     <color name="error">#F44336</color>
+    <color name="purple_500">#5956fb</color>
+    <color name="orange_500">#FF8C00</color>
+
 </resources>

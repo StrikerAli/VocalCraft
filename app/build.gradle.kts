@@ -60,6 +60,8 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation (libs.androidsvg)
     implementation ("com.davemorrissey.labs:subsampling-scale-image-view:3.10.0")
+    implementation ("com.github.yukuku:ambilwarna:2.0.1")
+
     implementation (libs.dropbox.core.sdk)
 
     implementation (libs.glide)

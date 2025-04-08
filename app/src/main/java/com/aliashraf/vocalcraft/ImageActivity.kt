@@ -41,7 +41,9 @@ class ImageActivity : AppCompatActivity() {
     private val client = OkHttpClient()
 
     // Dropbox setup
-    private val dropboxAccessToken = "sl.u.AFZoPN84FR5clAQAkJZgNbI2jgMFN8uaNAFKmUjlcO5dUiPmKsvJFGf8qSCdqOG2nGqNuCmZUKza5djQPTGlsFZejga7sOUh2Sr4RT1wicg640D6qBolvfC8uYDYHFFwbzeulVt39uriZYRncXtYmr3PvYPmKBzOSAcb-j2E0cMkFlnQI51b4E_ryH8Kh0PzAYJWLAJtNsyyMAQoDMCtKMtXNfVCSLKLnNoZiSdLsLwImAVGMnPCmrRsol2ksYFBCNHl5u6rX9l3K3tnpZ4Vp1tgVUZWe7BST4-nm8je3GhvABFdsn_DKzpcMXs8lzQBffFuS-p3aYBGyqm5lMGep6LmQrmf9hIJmiFIo3TOROVNx6IHC2owc8nYKaDrwFKIka_inbuRwFt5Z8m0Q-J-MyBtZ1DsrTc-JVCmh8j3rPNKZ5lCbhfVyX4Xi57Ijs4i5a0rXwnJwUpS5wuEQwFm-qU-GX5JIavaTmyae5r5h5gnC9oDWcrodD6QydEdVHqSzG2X-t2TNr_kyOXhFWYHBgopdw133Zz4szNLvTdJnpld_Ihulh4woQF6a-GShKQKl1dgNu2qoZco0a4-9eVX5Cw2yKYdFaRreaw4TRqjbRqQTt22Cj-yu-IhNR2yccDJDRoPzEBkPEcTXqoglHJ8dVLuADt6NZ1p84QV75SfPbRPtXq5awPe4Z5rXqrOuob-8UbJ2bjEzLky7DcZ5AaM5DK267Is9MKS6asSvAp9DHgykUsYIftuA0X4lgvEXc055BAHiNeeMkAAdCa1xiQU8fJyj4i4qI-FhVMFGFu95GKiOcXycDGZGNf_-J3tsjoahTWZjuyFEdPoGvHwBbbCKIg6O1N2CKUljSJhJ3EMUz4VxyfPVMZdAF726eptx4prm3k1dfJqoqY-YWuFWWQtWwZr0C9ir7Bx4T3daCizSHMHyfAdPAMlhfMZ8j0J82SUgLr97q02HJsTKKDdjrI26aO6Yi9ZnPsZmrjSdaqrBjQ8DK46AOJSmNFu4Lzg3b9PLe2CNDJslPl7kSVfM1hG-asl2lYkl9_mIJfzfzLEUPM3kcX08TJqegmTeXOriJBjzF5W_-BfsglQI8axjA83WIkQhTZmSC6Kx3PCD2hPjzsIRaMu5sw7ncNCKEp5eQ-Wata-UJk5Hi-Q5dilQaYthWdCnR5ya66ufPCYO2Te8BQ-oWmMHZhQfzut4QDuotDNz61DJic9AR9xlzHgBhqH9QyPwk9vva1blgrJu_L72b2FDzuHW62Sl-lKhZ-k4y1q0sOLsNaBnS-GEJ11UsIY56zFlXCXyofNVdDh9nQoVaqAphOM1T1AzQLUbdipvLcWhN465WQZpV8UR6-j_vktdjynClLItIWYcpSJu6w3B61wOVmmJx1PMflsf_DJLwqC6guJahTmLpC5qh5OFxwKdt3e7MfpyIJ33vQvybMjDK-Lew" // Replace with your Dropbox access token
+    private val dropboxAccessToken = "sl.u.AFlS6ksXIm7pVE0Hos42W16a2QXZqA1XM17KvX1X-T6EuxFrj60rtA9UZ12LURbqWIN-k7GY305AngidQAOjPx1w4wtKcLPHcHj0LT6TcwL9XM1A3LgTMnfR2m7EpwSOWzESg9Dd_TEctZpQ88vwWGxbWgKPgRAu98On8ORsFj9tyTj4WaVdZJcBKeQzMNfTpjT98YSPtqyy6zViuAa_AlRRH4Tr9TRcCaKJkh01xl6d9jaNw_KCdthbKS8DTTG6yw3PrNQMI6TEaTo8kVrksiyRuTs8CUOGJEYvT-COdmqzTP30cbAaNQVsuhPw9k_Wet8hVE33CURXxL_UaF7W_6dqclVU1yt5Dzxb6kgZYZN56KBEPBikrJ5CyQNEopA-wYzeAwdQ9pBU9hkEnrL6eEcH3An9ZmZ_DF1tBCT7L0LbUwcC2D1Smp0aZy3YqrLXTRoNscD0YMdK93nSopMdYJmHDLFHmJhQeXLVacvosjqYJJYE5PGDL05JRqNSad2Hp4zIi-i117L_X9GmW6f6KJ4Vc-AmIXgh_37FSZlunGTMBS4Z1wuogDCqJfsEZumstAl4hYozr3-QIaZMD55C-idQR4ExnYF6XaHPolRqBbqlGTJRzKFyKLmIxnB8pJrHQsWEZattGId9B9FMtu0nSr0Z0qcNAuqTWOvJjH7kOsdAKajCRhkU9JiNL-jzeAyklWVk1TPfuAlBfD1H7hNXc4DtEVCJ57QamE6qiAa_278-qMLX4cj2O3DrLTfMkVYone0OCAP2dln2kOrFvDkCsw6v1o9gdj3CCBXfthuPf9Skw6-CfF2ertXyj_hhGrlCh0cPIobR0SC6XLUqXewrVDy_ZZk3tYfrSfkr9s0zS5FHLzkpPkPIlX6svP5jcFfUH7WoI1txzcIPtAOTs4a3sq63EndP0nu1w33qmlvmt_q9gvWoRhjd_VtJTKRlykuTtGCbZpwmZ20mkY-Q6YS0w4eVg10dKFJKcOyNwA31v5XK20sGY8kIvTLtKGmM46oN5RApON4o2qVPTuEgG1cHqHu8nZFuGhe8UM2R-dr8jquSCFijWVCuCmWHiSFkt5zT9eu5geNPgQGAO8cSyMWdVPnXAA65XmwdTrTkEpLiLEj_zOtZ6_FLwuWUUSZiQUnp7P5bFahiV0zquUYkT8KYfyG4_2axmUgsVCAAU_PCbS-n1-m2trQuJ8YsdXY76DrjSK1Jy-q9SnNwjM17ch-KI3XMb_1S05oq3tCh2RmaZA_9MpBzXGGRbNH637pf1fkjDXexshePnQuYaWNrbh1hixbHBHfN_wZaSMT1Wg9azfcSWYEsVIfW4KreifeyKBEtVmC0mbAHLgR5cY0fY4s8i8VIqLR8jN9Al6BAKtp4vYG46ngI3UmHTpwg4aN4wsZzzRP87r6i87BtdI2DRCwp--lgY21GheHDIfeNbVPEhnxMJg"
+
+
 
     // Request code for permissions
     private val REQUEST_CODE_STORAGE_PERMISSION = 1
@@ -55,15 +57,14 @@ class ImageActivity : AppCompatActivity() {
 
         Glide.with(this)
             .asGif() // Load as GIF
-            //.load(R.drawable.loadingimage) // You can also use a URL or Base64
-            .load("https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif")
+            .load(R.drawable.loadingimage) // You can also use a URL or Base64
             .into(imageView)
 
         val jsonData = intent.getStringExtra("json_data")
         val promptData = intent.getStringExtra("prompt_data")
 
         if (jsonData != null && promptData != null) {
-            sendQueryToAPI(promptData, jsonData)
+            sendQueryToAPI(jsonData, promptData)
         } else {
             Toast.makeText(this, "No data received", Toast.LENGTH_SHORT).show()
         }
@@ -101,52 +102,58 @@ class ImageActivity : AppCompatActivity() {
         return "Image_$uuid.png" // Use UUID as part of the filename
     }
 
-    private fun sendQueryToAPI(oldPrompt: String, jsonData: String) {
-        val apiUrl = "https://exotic-crab-miserably.ngrok-free.app/generate_image" //API URL for generating images
+    private fun sendQueryToAPI(jsonData: String, promptData: String) {
+        val apiUrl = "https://exotic-crab-miserably.ngrok-free.app/generate_image" // API URL for generating images
 
-        val payload = JSONObject()
-        payload.put("old_prompt", oldPrompt)
-        payload.put("company_name", "KFC")
-        payload.put("company_name_position", "top-left")
-        val contentJson = JSONObject(jsonData)
-        payload.put("content", contentJson.optJSONObject("content"))
-        payload.put("content_position", "center")
-        payload.put("image_description", contentJson.optString("image_description"))
-        payload.put("image_description_position", "None")
-        payload.put("text_elements", contentJson.optJSONArray("text_elements"))
+        // Parse the jsonData into a JSONObject
+        Log.d("Original_Request_Body", jsonData)
+        val jsonObject = JSONObject(jsonData)
 
-        val requestBody = RequestBody.create("application/json".toMediaTypeOrNull(), payload.toString())
-        Log.d("Request Body", payload.toString())
+        // Add promptData under the key "old_prompt"
+        jsonObject.put("old_prompt", promptData)
+
+        // Convert the modified JSON object back to a string
+        val modifiedJsonData = jsonObject.toString()
+        Log.d("Modified_Request_Body", modifiedJsonData)
+        // Create the request body with the modified JSON data
+        val requestBody = RequestBody.create("application/json".toMediaTypeOrNull(), modifiedJsonData)
+
+        Log.d("Modified Request Body", modifiedJsonData)
+
+        // Create the request
         val request = Request.Builder()
             .url(apiUrl)
             .post(requestBody)
             .build()
 
-        client.newCall(request).enqueue(object : Callback { // Make an asynchronous request
+        // Make the asynchronous request
+        client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
-                    Toast.makeText(this@ImageActivity, "Error fetching image: ${e.message}", Toast.LENGTH_SHORT).show() // Notify the user on the main thread
+                    Toast.makeText(this@ImageActivity, "Error fetching image: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onResponse(call: Call, response: Response) { // Handle the response
+            override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
                     val responseBody = response.body?.string()
                     if (responseBody != null) {
                         handleAPIResponse(responseBody)
                     } else {
                         runOnUiThread {
-                            Toast.makeText(this@ImageActivity, "Empty response from server", Toast.LENGTH_SHORT).show() // Notify the user on the main thread
+                            Toast.makeText(this@ImageActivity, "Empty response from server", Toast.LENGTH_SHORT).show()
                         }
                     }
                 } else {
                     runOnUiThread {
-                        Toast.makeText(this@ImageActivity, "Failed to fetch image: ${response.message}", Toast.LENGTH_SHORT).show() // Notify the user on the main thread
+                        Toast.makeText(this@ImageActivity, "Failed to fetch image: ${response.message}", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         })
     }
+
+
 
     private fun handleAPIResponse(responseBody: String) {
         try {

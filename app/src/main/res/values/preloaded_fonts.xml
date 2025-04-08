@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
+        <item>@font/bowlby_one</item>
+        <item>@font/mochiy_pop_p_one</item>
         <item>@font/montserrat_bold_italic</item>
+        <item>@font/rubik_mono_one</item>
     </array>
 </resources>

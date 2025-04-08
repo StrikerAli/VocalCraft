@@ -2,6 +2,8 @@ package com.aliashraf.vocalcraft
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
@@ -13,8 +15,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -41,6 +49,8 @@ class NERActivity : AppCompatActivity() {
         val jsonString = intent.getStringExtra("json_data")
         val promptData = intent.getStringExtra("prompt_data")
         Log.d("MainActivity", "Prompt data: $promptData")
+        Log.d("MainActivity", "JSON Data: $jsonString")
+        submitButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FF8C00"))
 
         // Check if the JSON string is not null or empty
         if (!jsonString.isNullOrEmpty()) {
@@ -51,8 +61,17 @@ class NERActivity : AppCompatActivity() {
 
             // Set up the submit button click listener
             submitButton.setOnClickListener {
-                handleSubmit(jsonObject, promptData)
+                if (submitButton.isEnabled) {
+                    submitButton.isEnabled = false // Disable the button
+                    handleSubmit(jsonObject, promptData)
+
+                    // Re-enable the button after 3 seconds
+                    submitButton.postDelayed({
+                        submitButton.isEnabled = true
+                    }, 3000)
+                }
             }
+
         } else {
             // Handle the case where no JSON data was passed
             Toast.makeText(this, "No data available", Toast.LENGTH_SHORT).show()
@@ -69,40 +88,40 @@ class NERActivity : AppCompatActivity() {
                     val key = iterator.next()
                     val value = jsonElement.get(key)
 
-                    // Replace underscores with spaces in the key
                     val formattedKey = key.replace("_", " ")
 
                     if (value is JSONObject || value is JSONArray) {
-                        // Create a TextView for the parent (if it's an object or array)
                         val textView = TextView(this)
                         textView.layoutParams = LinearLayout.LayoutParams(
                             ViewGroup.LayoutParams.WRAP_CONTENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT
                         )
-                        textView.text = formattedKey // Use formatted key
+                        textView.text = formattedKey
                         textView.textSize = 18f
                         textView.setPadding(0, 16, 0, 8)
                         parentView.addView(textView)
 
-                        // Create a new nested LinearLayout to hold child elements
                         val nestedLayout = LinearLayout(this)
                         nestedLayout.orientation = LinearLayout.VERTICAL
                         parentView.addView(nestedLayout)
 
-                        // Recursively handle child elements
                         generateViewsFromJson(value, nestedLayout)
                     } else {
-                        // Create a TextView for the key (parent node)
+                        // ✅ Check for empty/null/blank value before adding views
+                        if ((value == JSONObject.NULL) || (value is String && value.isBlank())) {
+                            // Skip adding TextView and EditText
+                            continue
+                        }
+
                         val textView = TextView(this)
                         textView.layoutParams = LinearLayout.LayoutParams(
                             ViewGroup.LayoutParams.WRAP_CONTENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT
                         )
-                        textView.text = formattedKey // Use formatted key
+                        textView.text = formattedKey
                         textView.textSize = 16f
                         parentView.addView(textView)
 
-                        // Create an EditText for the value (leaf node)
                         val editText = EditText(this)
                         editText.layoutParams = LinearLayout.LayoutParams(
                             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -110,15 +129,14 @@ class NERActivity : AppCompatActivity() {
                         )
                         editText.setPadding(0, 0, 0, 16)
                         editText.hint = formattedKey
-                        editText.setTextColor(ContextCompat.getColor(this, R.color.black)) // Set text color
-                        editText.setHintTextColor(ContextCompat.getColor(this, android.R.color.darker_gray)) // Set hint text color
-                        editText.background = resources.getDrawable(R.drawable.rounded_edittext_noborder) // Set background
-                        editText.setPadding(24, 12, 12, 12) // Set padding
+                        editText.setTextColor(ContextCompat.getColor(this, R.color.black))
+                        editText.setHintTextColor(ContextCompat.getColor(this, android.R.color.darker_gray))
+                        editText.background = resources.getDrawable(R.drawable.rounded_edittext_noborder)
+                        editText.setPadding(24, 12, 12, 12)
 
                         // Add to the list of EditTexts
                         editTexts.add(editText)
 
-                        // Set existing value in the EditText if present, else set empty
                         if (value is String && value.isNotEmpty()) {
                             editText.setText(value)
                         } else if (value is Int) {
@@ -126,37 +144,25 @@ class NERActivity : AppCompatActivity() {
                         } else if (value is Double) {
                             editText.setText(value.toString())
                         } else {
-                            // Assign an ID to the EditText if the value is null or empty
-                            val emptyId = emptyCounter // Numeric ID
-                            editText.id = emptyId // Assign the ID
-                            emptyCounter++ // Increment the empty counter
+                            val emptyId = emptyCounter
+                            editText.id = emptyId
+                            emptyCounter++
                         }
 
                         parentView.addView(editText)
                     }
                 }
             }
+
             is JSONArray -> {
-                // Handle array elements
                 for (i in 0 until jsonElement.length()) {
                     val item = jsonElement.get(i)
-
-                    // Create a TextView for array index or label
-                    val textView = TextView(this)
-                    textView.layoutParams = LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                    )
-                    textView.textSize = 16f
-                    textView.setPadding(0, 16, 0, 8)
-                    parentView.addView(textView)
-
-                    // Recursively process each element in the array
                     generateViewsFromJson(item, parentView)
                 }
             }
         }
     }
+
 
     // Handle submit button click
     private var isSecondPress = false // Track if this is the second press
@@ -166,65 +172,106 @@ class NERActivity : AppCompatActivity() {
         var firstEmptyEditText: EditText? = null
         var allFilled = true
 
-        // Convert JSONObject to String
-        var jsonString = jsonObject.toString()
-
-        // Track empty fields
         val emptyFields = mutableListOf<String>()
-        var replacementIndex = 0 // Track which EditText value to use for replacement
+
+        // Replace nulls in the jsonObject with "None" if editText is empty
+        var updatedJson = JSONObject(jsonObject.toString())
 
         for (i in 0 until emptyCounter) {
             val editText = findViewById<EditText>(i)
-            val label = editTexts[i].hint?.toString() ?: "Field $i" // Get label text
+            val label = editTexts[i].hint?.toString() ?: "Field $i"
 
             if (editText.text.isEmpty()) {
                 if (!isSecondPress) {
-                    // On first press, collect empty fields
                     allFilled = false
                     emptyFields.add(label)
-
                     if (firstEmptyEditText == null) {
-                        firstEmptyEditText = editText // Highlight the first empty field
+                        firstEmptyEditText = editText
                     }
                 } else {
-                    // On second press, replace empty fields with "None"
-                    jsonString = jsonString.replaceFirst("null", "\"None\"")
+                    // Optional: You can handle second press logic if needed
                 }
             } else {
-                // Replace "null" with the EditText value if filled
-                jsonString = jsonString.replaceFirst("null", "\"${editText.text}\"")
-                replacementIndex++ // Move to the next replacement
+                // Replace "null" placeholders if necessary
             }
         }
 
         if (!allFilled && !isSecondPress) {
-            // Show empty fields to the user on the first press
             Toast.makeText(
                 this,
                 "Please fill the following fields: ${emptyFields.joinToString(", ")}",
                 Toast.LENGTH_LONG
             ).show()
-
             firstEmptyEditText?.requestFocus()
             scrollToView(firstEmptyEditText)
-            isSecondPress = true // Set the second press flag
+            isSecondPress = true
         } else {
-            // Allow submission on the second press or if all fields are filled
-            Log.d("NERActivity", "Final JSON: $jsonString")
+            // Now build the correct NER structure
+            val nerObject = JSONObject()
+            val finalObject = JSONObject()
+
+            // Move only the NER fields inside "ner"
+            val nerKeys = jsonObject.keys()
+            while (nerKeys.hasNext()) {
+                val key = nerKeys.next()
+                if (key != "old_prompt" && key != "base_image_url") {
+                    // Replace nulls with "None"
+                    val value = jsonObject.get(key)
+                    nerObject.put(key, processNulls(value))
+                }
+            }
+
+            // Add old_prompt and base_image_url outside ner
+            finalObject.put("ner", nerObject)
+            finalObject.put("old_prompt", jsonObject.optString("old_prompt", ""))
+            finalObject.put("base_image_url", jsonObject.optString("base_image_url", ""))
+
+            Log.d("NERActivity", "Final JSON: $finalObject")
 
             // Save to Firebase
-            savePromptToFirebase(promptData, jsonString)
+            savePromptToFirebase(promptData, finalObject.toString())
 
-            // Show the JSON in a Toast or proceed with submission logic
-            Toast.makeText(this, "Form Submitted. JSON: $jsonString", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Form Submitted. JSON: $finalObject", Toast.LENGTH_LONG).show()
 
-            // Launch ImageActivity
-            val intent = Intent(this, ImageActivity::class.java)
-            intent.putExtra("json_data", jsonString)
-            intent.putExtra("prompt_data", promptData)
-            startActivity(intent)
+            lifecycleScope.launch {
+                val imageLink = getImageLinkMatchingCaption(finalObject.toString())
+                if (imageLink != null) {
+                    val intent = Intent(this@NERActivity, SvgActivity::class.java)
+                    intent.putExtra("json_data", finalObject.toString())
+                    intent.putExtra("prompt_data", promptData)
+                    intent.putExtra("image_link", imageLink)
+                    startActivity(intent)
+                } else {
+                    Log.e("MainActivity", "No matching image link found.")
+                }
+            }
         }
     }
+
+    // Recursively replace nulls with "None"
+    private fun processNulls(value: Any?): Any? {
+        return when (value) {
+            JSONObject.NULL -> "None"
+            is JSONObject -> {
+                val obj = JSONObject()
+                val keys = value.keys()
+                while (keys.hasNext()) {
+                    val k = keys.next()
+                    obj.put(k, processNulls(value.get(k)))
+                }
+                obj
+            }
+            is JSONArray -> {
+                val arr = JSONArray()
+                for (i in 0 until value.length()) {
+                    arr.put(processNulls(value.get(i)))
+                }
+                arr
+            }
+            else -> value
+        }
+    }
+
 
 
     // Save the prompt to Firebase
@@ -268,6 +315,62 @@ class NERActivity : AppCompatActivity() {
             Log.e("MainActivity", "Prompt data is null.")
         }
     }
+    fun getFirstItemName(jsonString: String): String? {
+        return try {
+            Log.d("NERActivity", "JSON for getting item name from: $jsonString")
+            val jsonObject = JSONObject(jsonString)
+            val content = jsonObject.getJSONObject("content")
+            val items = content.getJSONArray("items")
+            if (items.length() > 0) {
+                val firstItem = items.getJSONObject(0)
+                Log.d("NERActivity", "First item name: $firstItem")
+                firstItem.getString("name")
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+
+    suspend fun getImageLinkMatchingCaption(jsonString: String): String? {
+        // Extract first item's name from the new JSON format
+        val firstItemName = try {
+            val jsonObject = JSONObject(jsonString)
+            val nerObject = jsonObject.getJSONObject("ner")
+            val contentObject = nerObject.getJSONObject("content")
+            val itemsArray = contentObject.getJSONArray("items")
+            if (itemsArray.length() > 0) {
+                val firstItem = itemsArray.getJSONObject(0)
+                firstItem.optString("name", null)?.lowercase()
+            } else null
+        } catch (e: Exception) {
+            null
+        }
+
+        if (firstItemName == null) return null
+
+        val database = FirebaseDatabase.getInstance().reference.child("input_image")
+
+        return try {
+            val snapshot = database.get().await()
+            for (imageSnapshot in snapshot.children) {
+                val caption = imageSnapshot.child("caption").getValue(String::class.java)?.lowercase()
+                val imageLink = imageSnapshot.child("image_link").getValue(String::class.java)
+
+                if (caption == firstItemName) {
+                    return imageLink // Return the matching image link
+                }
+            }
+            null // No match found
+        } catch (e: Exception) {
+            null // In case of error
+        }
+    }
+
+
 
 
     // Scroll to the specified view

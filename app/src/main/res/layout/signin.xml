@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    android:background="@drawable/yellow_background"
     >
 
     <TextView
@@ -102,10 +102,10 @@
         android:layout_width="340dp"
         android:layout_height="56dp"
         android:layout_marginTop="16dp"
-        android:backgroundTint="#E0E0FD"
+        android:backgroundTint="#ffc670"
         android:stateListAnimator="@null"
         android:text="Login"
-        android:textColor="#5f56e3"
+        android:textColor="#FFFFFF"
         android:textSize="16sp"
         app:icon="@drawable/ic_person"
         android:textStyle="bold"
@@ -136,7 +136,7 @@
         android:layout_height="56dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="16dp"
-        android:backgroundTint="#5956fb"
+        android:backgroundTint="#FF8C00"
         android:stateListAnimator="@null"
         android:text="Google"
         android:textColor="@android:color/white"
