@@ -33,6 +33,9 @@ class NERActivity : AppCompatActivity() {
     private val editTexts = mutableListOf<EditText>() // To hold references to EditTexts
     private var emptyCounter = 0
     private lateinit var database: DatabaseReference
+    private var itemNameEditText: EditText? = null
+    private var fontSizeEditText: EditText? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -133,6 +136,15 @@ class NERActivity : AppCompatActivity() {
                         editText.setHintTextColor(ContextCompat.getColor(this, android.R.color.darker_gray))
                         editText.background = resources.getDrawable(R.drawable.rounded_edittext_noborder)
                         editText.setPadding(24, 12, 12, 12)
+                        if (key == "name" && itemNameEditText == null) {
+                            itemNameEditText = editText
+                            Log.d("NERActivity", "Item name EditText initialized: $itemNameEditText")
+                        }
+                        val formattedKey = key.replace("_", " ")
+                        if (formattedKey.lowercase() == "font size" && fontSizeEditText == null) {
+                            Log.d("NERActivity", "Font size EditText initialized: $editText")
+                            fontSizeEditText = editText
+                        }
 
                         // Add to the list of EditTexts
                         editTexts.add(editText)
@@ -173,6 +185,38 @@ class NERActivity : AppCompatActivity() {
         var allFilled = true
 
         val emptyFields = mutableListOf<String>()
+        itemNameEditText?.let { editText ->
+            val updatedName = editText.text.toString()
+            try {
+                val ner = jsonObject.getJSONObject("content")
+                val items = ner.getJSONArray("items")
+                if (items.length() > 0) {
+                    Log.d("NERActivity", "Found Item: ${items.getJSONObject(0)}")
+                    items.getJSONObject(0).put("name", updatedName)
+                    Log.d("NERActivity", "Updated item name: $updatedName")
+                } else {
+
+                }
+            } catch (e: Exception) {
+                Log.e("NERActivity", "Failed to update item name: ${e.message}")
+            }
+        }
+        fontSizeEditText?.let { editText ->
+            val updatedFontSize = editText.text.toString()
+            try {
+                val textArray = jsonObject.getJSONArray("text_elements")
+                if (textArray.length() > 0) {
+                    val textItem = textArray.getJSONObject(0)
+                    textItem.put("font_size", updatedFontSize)
+                    Log.d("NERActivity", "Updated font size: $updatedFontSize")
+                } else {
+
+                }
+            } catch (e: Exception) {
+                Log.e("NERActivity", "Failed to update font size: ${e.message}")
+            }
+        }
+
 
         // Replace nulls in the jsonObject with "None" if editText is empty
         var updatedJson = JSONObject(jsonObject.toString())
@@ -344,6 +388,7 @@ class NERActivity : AppCompatActivity() {
             val itemsArray = contentObject.getJSONArray("items")
             if (itemsArray.length() > 0) {
                 val firstItem = itemsArray.getJSONObject(0)
+                Log.d("NERActivity", "First item name: $firstItem")
                 firstItem.optString("name", null)?.lowercase()
             } else null
         } catch (e: Exception) {
@@ -357,10 +402,11 @@ class NERActivity : AppCompatActivity() {
         return try {
             val snapshot = database.get().await()
             for (imageSnapshot in snapshot.children) {
-                val caption = imageSnapshot.child("caption").getValue(String::class.java)?.lowercase()
+                val caption = imageSnapshot.child("caption").getValue(String::class.java)?.lowercase()?.trimEnd()
                 val imageLink = imageSnapshot.child("image_link").getValue(String::class.java)
 
                 if (caption == firstItemName) {
+                    Log.d("NERActivity", "Matching caption found: $caption")
                     return imageLink // Return the matching image link
                 }
             }

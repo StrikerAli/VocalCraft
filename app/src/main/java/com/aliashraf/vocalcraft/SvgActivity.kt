@@ -86,9 +86,9 @@ class SvgActivity : AppCompatActivity() {
 
     private val REQUEST_CODE_STORAGE_PERMISSION = 1
 
-    private val apiUrl = "http://34.224.116.87:8000/resizer"
-    private val dropboxAccessToken = "sl.u.AFlS6ksXIm7pVE0Hos42W16a2QXZqA1XM17KvX1X-T6EuxFrj60rtA9UZ12LURbqWIN-k7GY305AngidQAOjPx1w4wtKcLPHcHj0LT6TcwL9XM1A3LgTMnfR2m7EpwSOWzESg9Dd_TEctZpQ88vwWGxbWgKPgRAu98On8ORsFj9tyTj4WaVdZJcBKeQzMNfTpjT98YSPtqyy6zViuAa_AlRRH4Tr9TRcCaKJkh01xl6d9jaNw_KCdthbKS8DTTG6yw3PrNQMI6TEaTo8kVrksiyRuTs8CUOGJEYvT-COdmqzTP30cbAaNQVsuhPw9k_Wet8hVE33CURXxL_UaF7W_6dqclVU1yt5Dzxb6kgZYZN56KBEPBikrJ5CyQNEopA-wYzeAwdQ9pBU9hkEnrL6eEcH3An9ZmZ_DF1tBCT7L0LbUwcC2D1Smp0aZy3YqrLXTRoNscD0YMdK93nSopMdYJmHDLFHmJhQeXLVacvosjqYJJYE5PGDL05JRqNSad2Hp4zIi-i117L_X9GmW6f6KJ4Vc-AmIXgh_37FSZlunGTMBS4Z1wuogDCqJfsEZumstAl4hYozr3-QIaZMD55C-idQR4ExnYF6XaHPolRqBbqlGTJRzKFyKLmIxnB8pJrHQsWEZattGId9B9FMtu0nSr0Z0qcNAuqTWOvJjH7kOsdAKajCRhkU9JiNL-jzeAyklWVk1TPfuAlBfD1H7hNXc4DtEVCJ57QamE6qiAa_278-qMLX4cj2O3DrLTfMkVYone0OCAP2dln2kOrFvDkCsw6v1o9gdj3CCBXfthuPf9Skw6-CfF2ertXyj_hhGrlCh0cPIobR0SC6XLUqXewrVDy_ZZk3tYfrSfkr9s0zS5FHLzkpPkPIlX6svP5jcFfUH7WoI1txzcIPtAOTs4a3sq63EndP0nu1w33qmlvmt_q9gvWoRhjd_VtJTKRlykuTtGCbZpwmZ20mkY-Q6YS0w4eVg10dKFJKcOyNwA31v5XK20sGY8kIvTLtKGmM46oN5RApON4o2qVPTuEgG1cHqHu8nZFuGhe8UM2R-dr8jquSCFijWVCuCmWHiSFkt5zT9eu5geNPgQGAO8cSyMWdVPnXAA65XmwdTrTkEpLiLEj_zOtZ6_FLwuWUUSZiQUnp7P5bFahiV0zquUYkT8KYfyG4_2axmUgsVCAAU_PCbS-n1-m2trQuJ8YsdXY76DrjSK1Jy-q9SnNwjM17ch-KI3XMb_1S05oq3tCh2RmaZA_9MpBzXGGRbNH637pf1fkjDXexshePnQuYaWNrbh1hixbHBHfN_wZaSMT1Wg9azfcSWYEsVIfW4KreifeyKBEtVmC0mbAHLgR5cY0fY4s8i8VIqLR8jN9Al6BAKtp4vYG46ngI3UmHTpwg4aN4wsZzzRP87r6i87BtdI2DRCwp--lgY21GheHDIfeNbVPEhnxMJg"
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private val apiUrl = "http://35.171.159.55:8000/resizer"
+    private val dropboxAccessToken = "sl.u.AFq_SNfuM-N9dpdZFG5mtGRR-vwrJnAqWokMwaJoQbqzLkxBB9yEnW6_oJgrIxbJq5XHJRsiWzlWSD_jHRJVuxYWMYAL5iWIRczfLofDesno0PrPG6mdhprKfZKZo7ipxwDhNce51_cFvAwE0dys_C9dq8B7fKKzrX5s8YkpxOQoIV8cmhPdp1TubDihn-v7PcsPwQ7DtwLdyMg0di5Yfk8D3BXxjxGh1N_snkhFQ2TeQr3cQ_x8EVJSCeuj21h0zA7RQ0VPWxj3i9YLGGIJsSQhYwJz7CdUgzl69ntju3eqL3LR8ye0uK6V9B2fW3EkV0CLsiz3UVbSLUlf7mfNm1wrU1KiwN8hj1AqDawrxi9Qr-c0SKm7QcMXUlwqVxjCVquvBjiT4anYWjw4m0N_gkHfgpgiVLytnm-5JMaxStD6fAuB7EclnT2MAo8U4ocoUyFhFmfK5urqfG59lBwW37OaJRcI2MRj_gQ1G6ZhOdICdEBwFjOWT5fvuelktiVa3XxOlVa1tGugt1hzYcz9dDRYxs_aOkLuSShQVjasThfotELfteBTjkI5sfgdZuztdBBPtwORHXsY3eldgzZE8cD0Nj4nDTX1phTCeiJgh_JLTcBAFEEExRXg72tjTqKtGgVK6t7QnuQTK8ZZ-ddpsly7bIdCcoYHMnnmk1NxWXCGHEMHUADVQmL3DtCPVzVWdZRzgCFC4eHI2VBPNq6ACodWLUkxUgANeqDT-MW9ezXaPqmOrc-woIMJOnoyhUCgHbtZwfzQnocbnicfWvffU1YBAPqUpD6SOqgmTOXoiii6uezgbQmPX51GQGjafVygzXYryAEbVb4cZt3lWqIk_rKp1eUC7rbeddnhZuusctmtqVa9XfDW7oPzur--DFdjiH_eei6UpLJ3vV8YfnsSbdWzyM0uopnMczQYbNQTXKXRnU3-a55mdhRnrNXP8yy9sqRr8z13RTXauvdpaiP5E84TaLHLngTlmUhDW78aUow18wcFNRqfpDZGd7qzh7VhVE8Iv3XzKjXdgtRJwYfUOAYc2zCBGQihSIlGHARGk56Z3ZUDXG1xbBzHGBkT6B0SvGySFtO_2ZOaFyEHulNDxdLasrcM99EORogobwi4_kS0IIOoXoq41v8T0sZPWYAsIKDCq_zzG7W0T4glR5INu9NjP2mS-3K1JgpOHVRo_9QVXRLPgx42FADnswhlLQ0ZdsEW5ayeMoFGbaAtQa4kbY_83YqidbB6XiEKyWuFszIQGhHKt06yaA1n984DpPVqaEIPYTBEJ4mLGniB987EgoPIUmygwA-eDdPvLvyCuhdb3PUzOFvpj_2OacsnMQqsIPEP_UlGYXoDGpo9h3EGTf7bqdSVo-Cq5nr-J1QdB_JP6V4mA2r9R8onvXwk30-_ypZRJbrymkqOEy_1EYqAC7QBChVB71IVzjgRHi-y_7eZFQ"
+        override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.imageview)  // Your layout file
         saveButton = findViewById(R.id.saveButton)
@@ -177,7 +177,7 @@ class SvgActivity : AppCompatActivity() {
     }
 
     private fun sendInpaintingRequest(imageLink: String) {
-        val apiUrl = "http://34.224.116.87:8000/inpainting"
+        val apiUrl = "http://35.171.159.55:8000/inpainting"
         val jsonObject = JSONObject().apply {
             put("image", imageLink)
         }
@@ -255,7 +255,7 @@ class SvgActivity : AppCompatActivity() {
             .writeTimeout(240, TimeUnit.SECONDS)    // Set write timeout
             .readTimeout(240, TimeUnit.SECONDS)     // Set read timeout
             .build()
-        val apiUrl = "http://34.224.116.87:8000/generate_image" // API URL for generating images
+        val apiUrl = "http://35.171.159.55:8000/generate_image" // API URL for generating images
 
         // Parse the jsonData into a JSONObject
         Log.d("Original_Request_Body", jsonData)
@@ -344,8 +344,25 @@ class SvgActivity : AppCompatActivity() {
             for (i in 0 until textElementsJsonArray.length()) {
                 val textElementObj = textElementsJsonArray.getJSONObject(i)
                 val content = textElementObj.getString("content")
-                val fontSize = textElementObj.getInt("font_size") / 3 // Reduce size
-                val textColor = textElementObj.getString("font_color")
+                val fontSize = try {
+                    val rawFontSize = textElementObj.get("font_size")
+
+                    when (rawFontSize) {
+                        is Int -> rawFontSize / 3
+                        is String -> rawFontSize.toIntOrNull()?.div(3) ?: 20
+                        else -> 20
+                    }
+                } catch (e: Exception) {
+                    20
+                }
+                val textColor = try {
+                    val rawColor = textElementObj.getString("font_color")
+                    Color.parseColor(rawColor) // Validates the color string
+                    rawColor // Return the original if it's valid
+                } catch (e: Exception) {
+                    "black" // Fallback to "black" if invalid
+                }
+
 
                 textElements.add(TextElement(content, fontSize, textColor))
             }

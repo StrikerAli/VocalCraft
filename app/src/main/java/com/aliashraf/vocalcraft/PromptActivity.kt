@@ -285,7 +285,7 @@ class PromptActivity : AppCompatActivity() {
             .build()
 
         val request = Request.Builder()
-            .url("http://34.224.116.87:8000/transcribe")
+            .url("http://35.171.159.55:8000/transcribe")
             .post(requestBody)
             .build()
 
@@ -341,7 +341,7 @@ class PromptActivity : AppCompatActivity() {
 
     private fun callPosterGenerationApi(promptText: String) {
         // Define the API URL for the POST request
-        val url = "http://34.224.116.87:8000/ner"
+        val url = "http://35.171.159.55:8000/ner"
 
         // Create the JSON body with the "prompt" key
         val jsonBody = """{ "prompt": "$promptText" }"""
