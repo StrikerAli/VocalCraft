@@ -1,5 +1,21 @@
 # Vocal Craft: AI-Powered Content Creation
 
+## Video Demo
+
+
+
+https://github.com/user-attachments/assets/daf8e887-c946-4290-8b5c-69b0d29ad67b
+
+
+## Results
+
+![results (1)](https://github.com/user-attachments/assets/69e0efff-9e88-4eb0-b31a-a449c84f0f68)
+![results (5)](https://github.com/user-attachments/assets/1f0c97f0-7fa5-4770-979a-c6fd834a863e)
+![results (4)](https://github.com/user-attachments/assets/cd013e7a-7e4e-4097-9358-9af8e83a494d)
+![results (3)](https://github.com/user-attachments/assets/6c5a49cf-eddf-4933-8b33-f59a91a04783)
+![results (2)](https://github.com/user-attachments/assets/a937e219-e285-4262-ba84-aff167ea5c9d)
+
+
 ## Overview
 
 Vocal Craft is an Android application that leverages AI to empower users in creating visual content, such as posters, social media graphics, and other visual materials. The application accepts voice and text prompts, allows users to upload their own images, and utilizes AI for generating and editing the content.
