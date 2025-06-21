@@ -130,6 +130,46 @@ The application relies on external APIs for transcription, NER, image generation
 4.  Connect an Android device or start an emulator.
 5.  Click the "Run" button (green play icon) in Android Studio.
 
+
+---
+
+## Additional Notebooks
+
+### `sdxl-training-actual.ipynb`
+This notebook outlines the process of fine-tuning a Stable Diffusion XL (SDXL) model using LoRA (Low-Rank Adaptation) with DreamBooth. Key aspects:
+
+- **Setup**:
+  - Uses Hugging Face's `diffusers`, `transformers`, and other utilities.
+  - Environment is initialized with authentication to Hugging Face Hub.
+  
+- **Configuration**:
+  - Custom configuration for model paths, instance prompts, learning rates, and output directories.
+  - Includes options for resolution, precision (fp16), number of training steps, and checkpointing.
+
+- **Training**:
+  - Launches the training script `train_dreambooth_lora_sdxl.py` using a subprocess call with appropriate arguments.
+  - Uses LoRA modules to speed up and reduce memory requirements for fine-tuning.
+
+- **Output**:
+  - The fine-tuned model is saved in the specified output directory.
+  - Trained weights can be pushed to Hugging Face Hub for sharing.
+
+### `apicaller.ipynb`
+This notebook demonstrates how to interact with the fine-tuned model hosted on Hugging Face Hub:
+
+- **Model Inference via API**:
+  - Uses `requests` to call the inference API for the SDXL model.
+  - Takes a text prompt and returns a generated image in base64 format.
+  - Decodes the base64 image and displays it using PIL.
+
+- **Authorization**:
+  - Requires Hugging Face API token for authenticated access.
+
+- **Utility**:
+  - Useful for testing and showcasing model capabilities directly from a notebook.
+  - Can be extended to integrate with front-end applications or mobile apps.
+
+
 ### Additional Notes
 *   **Dependencies:** The project uses several third-party libraries (e.g., Firebase, OkHttp, Glide, Picasso, AmbilWarnaDialog). These are managed by Gradle and listed in `app/build.gradle.kts` and `gradle/libs.versions.toml`.
 *   **Permissions:** The app requests permissions like `RECORD_AUDIO`, `INTERNET`, and storage permissions. Ensure these are granted on the device when prompted.
